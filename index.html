@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Show polygon information on click</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+<link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico"/>
+<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<!-- jquery -->
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<style>
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+</style> 
+
+<div class="dropdown show" style="left: 27%; top: 2%; position: absolute; z-index: 1;">
+  <a class="btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+    Map Score Filters
+  </a>
+  <div class="dropdown-menu" style="max-height: 500px; overflow-y: auto; min-width: 500px;">
+    <div class="card" style="padding:5px;">
+        <div class="card-header bg-info text-white">
+            ILP Policy 
+        </div>                           
+        <div id="scores" class="card-body">
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" name="score-radio" type="radio" value="Statewide ILP P&G" checked>Statewide ILP P&G
+                </label>     
+            </div>
+            <div class="form-check">
+            <label>
+                <input class="form-check-input" type="radio" name="score-radio" value="ILP P&G addresses Equity">ILP P&G addresses Equity 
+            </label>                
+            </div>
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" name="score-radio" value="ILP & ESSA CR">ILP & ESSA CR
+                <label>                
+            </div>
+        </div>               
+    </div>
+    <div class="card" style="padding:5px;">
+        <div class="card-header bg-info text-white">
+             ILP Supports
+        </div>                           
+        <div id="scores" class="card-body">
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" name="score-radio" type="radio" value="Funding supports ILP implementation ">Funding supports ILP implementation
+                </label>     
+            </div>
+            <div class="form-check">
+            <label>
+                <input class="form-check-input" type="radio" name="score-radio" value="ILP P&G addresses staff training">ILP P&G addresses staff training 
+            </label>                
+            </div>
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" name="score-radio" value="ILP P&G includes Standards &/or Curriculum">ILP P&G includes Standards &/or Curriculum
+                <label>                
+            </div>
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" name="score-radio" value="ILP P&G includes use of a technology platform">ILP P&G includes use of a technology platform
+                <label>                
+            </div>
+        </div>               
+    </div>
+    <div class="card" style="padding:5px;">
+        <div class="card-header bg-info text-white">
+             ILP Program Investments
+        </div>                           
+        <div id="scores" class="card-body">
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" name="score-radio" type="radio" value="ILP & SEL ">ILP & SEL 
+                </label>     
+            </div>
+            <div class="form-check">
+            <label>
+                <input class="form-check-input" type="radio" name="score-radio" value="ILP & CTE">ILP & CTE
+            </label>                
+            </div>
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" name="score-radio" value="ILP & IRCs">ILP & IRCs
+                <label>                
+            </div>
+            <div class="form-check">
+                <label>
+                    <input class="form-check-input" type="radio" name="score-radio" value="ILP & DE">ILP & DE
+                <label>                
+            </div>
+        </div>               
+    </div>    
+  </div>
+</div>                
+
+<div id="map" style="position: absolute;top: 0;bottom: 0;width: 100%;left:25%"></div>
+
+
+<!-- middle visual container -->
+<div class="wrapper bg-white text-white" style="position:absolute;z-index:1;left:5px; width:25%;overflow-y:auto;">  
+    <div class="accordion" id="categories" style="z-index:1">
+        <div class="accordion-item p-0">
+            <h4 class="accordion-header">
+                <button class="accordion-button btn btn-info w-100 btn-lg" type="button" data-toggle="collapse" data-target="#collapseOne">
+                ILP Policy
+                </button>
+            </h4>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-parent="#categories">
+                <div class="accordion-body p-1">
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            State ILP Process
+                        </div>
+                        <div class="card-body text-dark" id="stateILPProces">
+                            <p>No data available</p>                            
+                        </div>
+                    </div>        
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            ILP DEI (Diversity, Equity, Inclusion)
+                        </div>
+                        <div class="card-body text-dark" id="ILPDEI">
+                            <p>No data available</p>                                            
+                        </div>
+                    </div>                      
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header">
+                <button class="collapsed accordion-button btn btn-info btn-lg w-100" type="button" data-toggle="collapse" data-target="#collapseTwo">
+                    ILP Supports
+                </button>
+            </h4>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-parent="#categories">
+                <div class="accordion-body p-1">
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            ILP Funding
+                        </div>
+                        <div class="card-body text-dark" id="ILPFunding">
+                            <p>No data available</p>                                                
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            ILP School Support
+                        </div>
+                        <div class="card-body text-dark" id="ILPSupport">
+                            <p>No data available</p>                                                
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            ILP Tech Platform
+                        </div>
+                        <div class="card-body text-dark" id="ILPTechPlatform">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h4 class="accordion-header">
+                <button class="accordion-button collapsed btn btn-info btn-lg w-100" type="button" data-toggle="collapse" data-target="#collapseThree">
+                    ILP Program Investments
+                </button>
+            </h4>
+            <div id="collapseThree" class="accordion-collapse collapse" data-parent="#categories">
+                <div class="accordion-body p-1">
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            SEL
+                        </div>
+                        <div class="card-body text-dark" id="SEL">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            STE
+                        </div>
+                        <div class="card-body text-dark" id="STE">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            Dual Enrollment
+                        </div>
+                        <div class="card-body text-dark" id="dualEnrollment">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            IRCs
+                        </div>
+                        <div class="card-body text-dark" id="IRCs">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header bg-light text-dark text-center font-weight-bold">
+                            WBL
+                        </div>
+                        <div class="card-body text-dark" id="WBL">
+                            <p>No data available</p>                                                               
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/index.js" type="module"></script>
+</body>
+</html>
