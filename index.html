@@ -2,54 +2,25 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Show polygon information on click</title>
+<title>Career readiness map</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
 <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico"/>
 <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-<!-- jquery -->
 <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<style>
-.mapboxgl-popup-close-button {
-    font-size: 25px;     
-}
-
-.legend {
-    bottom: 30px;   
-    left: 27%;
-    font: 20px/40px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    width: 200px;
-    height: 210px;     
-    border-radius: 3px;    
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);    
-    padding: 0px;
-    position: absolute;    
-    z-index: 1;  
-}
-
-.legend div span {
-    height: 20px;    
-    width: 20px; 
-    border-radius: 50%;
-    display: inline-block;    
-    margin-right: 5px;     
-}
-</style> 
-
-<div class="dropdown show" style="left: 27%; top: 2%; position: absolute; z-index: 1;">
+<div class="dropdown show" id="score-dropdown">
   <a class="btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown">
     Map Score Filters
   </a>
-  <div class="dropdown-menu" style="max-height: 500px; overflow-y: auto; min-width: 500px;">
+  <div class="dropdown-menu" id="score-dropdown-menu">
     <div class="card" style="padding:5px;">
         <div class="card-header bg-info text-white">
             ILP Policy 
@@ -129,11 +100,12 @@
   </div>
 </div>                
 
-<div id="map" style="position: absolute;top: 0;bottom: 0;width: 100%;left:25%"></div>
+<!-- map container -->
+<div id="map"></div>
 
 
 <!-- middle visual container -->
-<div class="wrapper bg-white text-white" style="position:absolute;z-index:1;left:5px; width:25%;overflow-y:auto; height:100%">  
+<div class="wrapper bg-white text-white">  
     <div class="accordion" id="categories">
         <div class="accordion-item p-0">
             <h4 class="accordion-header">
@@ -292,5 +264,6 @@
 </div>
 
 <script src="js/index.js" type="module"></script>
+<link href="css/index.css" rel="stylesheet"/>
 </body>
 </html>
