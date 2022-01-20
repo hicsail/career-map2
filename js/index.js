@@ -96,7 +96,13 @@ map.on('load', () => {
 map.on('click', 'states-layer', (e) => {
 
     let properties = e.features[0].properties;
-    const propToIds = config['config']['propertiesToIds'];    
+    const propToIds = config['config']['propertiesToIds']; 
+    const stateName = properties['state_name'];
+    
+    const buttonIds = ["ILPPolicyBtn", "ILPSupportsBtn", "ILPProgramBtn"]
+    for (const id of buttonIds) {
+        $("#" + id).html($("#ILPPolicyBtn").html().split("(")[0] + " (" + stateName + ")");    
+    }       
 
     for (const id in propToIds) {
         let noData = true;
