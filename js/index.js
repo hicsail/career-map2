@@ -27,6 +27,18 @@ function onScoresRadioChange() {
     });    
 }
 
+function getSelectedScore() {
+
+    let selectedScore;   
+    $("#scores input[name='score-radio']").each(function() {
+        if ($(this).is(':checked')) {                       
+            selectedScore = $(this).val();
+            return false;    
+        }                          
+    }); 
+    return selectedScore;    
+}
+
 let statesData = null;
 
 ajax_get('data/states-careers3.json', function (d) {
@@ -96,13 +108,20 @@ map.on('load', () => {
 map.on('click', 'states-layer', (e) => {
 
     let properties = e.features[0].properties;
+    const coordinates = e.features[0].geometry.coordinates;
     const propToIds = config['config']['propertiesToIds']; 
     const stateName = properties['state_name'];
     
+    //update the main accordion buttons titles, add the name of clicked state to them
     const buttonIds = ["ILPPolicyBtn", "ILPSupportsBtn", "ILPProgramBtn"]
     for (const id of buttonIds) {
         $("#" + id).html($("#ILPPolicyBtn").html().split("(")[0] + " (" + stateName + ")");    
-    }       
+    }
+    
+    new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML("<h5 class='text-info mt-2'>" + getSelectedScore() + " : " + properties[getSelectedScore()] + "</h5>")
+        .addTo(map);     
 
     for (const id in propToIds) {
         let noData = true;
