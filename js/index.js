@@ -181,3 +181,8 @@ map.on('mouseleave', 'states-layer', () => {
 map.getCanvas().style.cursor = '';
 });
 });
+
+
+$(document).ready(function(){
+    $("#instructionsModal").modal('show');
+});
