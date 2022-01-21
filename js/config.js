@@ -1,5 +1,6 @@
 export let config = {
-	'access_token':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',	
+	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
+	'dataPath': 'data/states-careers.json',	
 	//'propertiesToIds': {
 	//	'State ILP': {'HTMLId': /*'stateILP'*/'stateILPProces','isLink': false},
 	//	'ILP Webpage': {'HTMLId': /*'ILPWebpage'*/'stateILPProces','isLink': true},

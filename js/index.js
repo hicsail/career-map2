@@ -39,17 +39,15 @@ function getSelectedScore() {
     return selectedScore;    
 }
 
+
+const CONFIG = config['config'];
 let statesData = null;
 
-ajax_get('data/states-careers3.json', function (d) {
+ajax_get(CONFIG['dataPath'], function (d) {
      statesData = d;    
 });
 
-onScoresRadioChange();
-	
-mapboxgl.accessToken = 'pk.eyJ1IjoiYXNhZGVnMDIiLCJhIjoiY2t4em41c3hvNHp6bTJucG40YTlweHFjMSJ9.KxWmd9kZ3Ng6hbXBP3adgA';
-
-
+mapboxgl.accessToken = CONFIG['accessToken'];
 
 const map = new mapboxgl.Map({
     container: 'map',
@@ -109,7 +107,7 @@ map.on('click', 'states-layer', (e) => {
 
     let properties = e.features[0].properties;
     const coordinates = e.features[0].geometry.coordinates;
-    const propToIds = config['config']['propertiesToIds']; 
+    const propToIds = CONFIG['propertiesToIds']; 
     const stateName = properties['state_name'];
     
     //update the main accordion buttons titles, add the name of clicked state to them
@@ -191,17 +189,18 @@ map.on('click', 'states-layer', (e) => {
 // Change the cursor to a pointer when
 // the mouse is over the states layer.
 map.on('mouseenter', 'states-layer', () => {
-map.getCanvas().style.cursor = 'pointer';
+    map.getCanvas().style.cursor = 'pointer';
 });
  
 // Change the cursor back to a pointer
 // when it leaves the states layer.
 map.on('mouseleave', 'states-layer', () => {
-map.getCanvas().style.cursor = '';
+    map.getCanvas().style.cursor = '';
 });
 });
 
 
 $(document).ready(function(){
-    $("#instructionsModal").modal('show');
+    $("#instructionsModal").modal('show'); 
+    onScoresRadioChange();   
 });
