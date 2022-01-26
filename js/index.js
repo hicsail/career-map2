@@ -113,7 +113,7 @@ map.on('click', 'states-layer', (e) => {
     //update the main accordion buttons titles, add the name of clicked state to them
     const buttonIds = ["ILPPolicyBtn", "ILPSupportsBtn", "ILPProgramBtn"]
     for (const id of buttonIds) {
-        $("#" + id).html($("#ILPPolicyBtn").html().split("(")[0] + " (" + stateName + ")");    
+        $("#" + id).html($("#" + id).html().split("(")[0] + " (" + stateName + ")");    
     }
     
     new mapboxgl.Popup()
