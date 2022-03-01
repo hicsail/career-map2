@@ -68,7 +68,7 @@ let map = new mapboxgl.Map({
     minZoom: 4.1,    
 });
 
-map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
  
 map.on('load', () => {
     var $ = window["$"];
@@ -80,6 +80,7 @@ map.on('load', () => {
         'data': statesData
     });
 
+    // Add a white background layer.
     map.addLayer({
         'id': 'bg',
         'type': 'background',        

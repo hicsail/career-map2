@@ -22,6 +22,5 @@ export let config = {
 		'K12CTE': ['CO', 'IL', 'IA', 'MA', 'RI', 'TN', 'VA', 'WA', 'WI'],
 		'K12WBL': ['DE', 'GA', 'IA', 'MA', 'OH', 'RI'],
 		'K12WBLGuide': ['DE', 'GA', 'IA', 'MA', 'OH', 'RI']
-	}		
-	
+	}	
 }
