@@ -23,10 +23,10 @@ function onScoresRadioChange(stateRecoms) {
         if ($(this).is(':checked')) {            
             map.setPaintProperty('states-layer', 'fill-color', [
                                                                 'case', 
-                                                                ["in", ['get', 'state_name'], ['literal', stateRecoms[$(this).val()]]], 
+                                                                ["in", ['get', 'name'], ['literal', stateRecoms[$(this).val()]]], 
                                                                 '#f0ad4e', 
                                                                 '#C0C0C0']);
-            $("#dropdownBtn").text('CCD State Recomandations for: ' + $(this).val());            
+            $("#dropdownBtn").text('CCD Center State Recommendation: ' + $(this).val());            
         }                          
     });    
 }
@@ -45,7 +45,7 @@ function getSelectedScore() {
 
 function resetStateRecoms() {
 
-    $("#dropdownBtn").text('CCD State Recomandations ');
+    $("#dropdownBtn").text('CCD Center State Recommendation ');
     $("#scores input[name='score-radio']").each(function () {            
         $(this).prop('checked', false);
     });    
@@ -63,9 +63,9 @@ mapboxgl.accessToken = CONFIG['accessToken'];
 let map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v10',
-    center: [-86.5, 38.907],
-    zoom: 4.1,
-    minZoom: 4.1,    
+    center: [-89.5, 49.907],
+    zoom: 2.9,
+    //minZoom: 4.1,    
 });
 
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
@@ -86,7 +86,7 @@ map.on('load', () => {
         'type': 'background',        
         'paint': { 
             'background-color': 'white',
-            'background-opacity': 0.8 
+            'background-opacity': 0.6 
         }
     });    
  
@@ -105,14 +105,14 @@ map.on('load', () => {
     map.addLayer({
         "id": "clusters-label",
         "type": "symbol",
-        "source": "states",
+        "source": "states",        
         "layout": {
-            "text-field": "{state_name}",
+            "text-field": "{name}",
             "text-font": [
             "DIN Offc Pro Medium",
             "Arial Unicode MS Bold"
             ],
-            "text-size": 12
+            "text-size": 13
         }
     });
  
@@ -124,9 +124,9 @@ map.on('load', () => {
         let properties = e.features[0].properties;
         const coordinates = e.features[0].geometry.coordinates;
         const propToIds = CONFIG['propertiesToIds']; 
-        const stateName = properties['state_name'];
+        const stateName = properties['name'];
 
-        map.setPaintProperty('states-layer', 'fill-color', ['case', ["==", ['get', 'state_name'], stateName], '#5bc0de', '#C0C0C0']);    
+        map.setPaintProperty('states-layer', 'fill-color', ['case', ["==", ['get', 'name'], stateName], '#5bc0de', '#C0C0C0']);    
 
         $("#stateName").removeClass("d-none").empty().text("Links for " + stateName);        
         $("#links").empty()

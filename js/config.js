@@ -1,6 +1,6 @@
 export let config = {
 	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
-	'dataPath': 'data/states-careers2.json',	
+	'dataPath': 'data/states-careers3.json',	
 	'propertiesToIds': {
 		'PCAPName': {'key': 'State Personalized Career & Academic Plan (PCAP) Name','isLink': false},
 		'PCAPContact': {'key': 'PCAP Contact','isLink': false},
@@ -14,13 +14,13 @@ export let config = {
 		'K12WBLGuide': {'key': 'K12 WBL Guide','isLink': true}		
 	},
 	'stateRecoms': {
-		'PCAPWebpage': ['AK', 'CO', 'KS', 'KY', 'OK', 'PA', 'WI'],
-		'PCAPGuide': ['CO', 'KS'],
-		'PCAPPlatform': ['AL', 'AK', 'MA', 'MN', 'OH', 'SD', 'WI'],
-		'ESSAPlan': ['CO', 'KS', 'OH', 'OK', 'PA', 'RI'],
-		'PerkinsVPlan': ['IN', 'RI', 'WI'],
-		'K12CTE': ['CO', 'IL', 'IA', 'MA', 'RI', 'TN', 'VA', 'WA', 'WI'],
-		'K12WBL': ['DE', 'GA', 'IA', 'MA', 'OH', 'RI'],
-		'K12WBLGuide': ['DE', 'GA', 'IA', 'MA', 'OH', 'RI']
+		'PCAPWebpage': ['Alaska', 'Colorado', 'Kansas', 'Kentucky', 'Oklahoma', 'Pennsylvania', 'Wisconsin'],
+		'PCAPGuide': ['Colorado', 'Kansas'],
+		'PCAPPlatform': ['Alabama', 'Alaska', 'Massachusetts', 'Minnesota', 'Ohio', 'South Dakota', 'Wisconsin'],
+		'ESSAPlan': ['Colorado', 'Kansas', 'Ohio', 'Oklahoma', 'Pennsylvania', 'Rhode Island'],
+		'PerkinsVPlan': ['Indiana', 'Rhode Island', 'Wisconsin'],
+		'K12CTE': ['Colorado', 'Illinois', 'Iowa', 'Massachusetts', 'Rhode Island', 'Tennessee', 'Virginia', 'Washington', 'Wisconsin'],
+		'K12WBL': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island'],
+		'K12WBLGuide': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island']
 	}	
 }
