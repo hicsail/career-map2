@@ -1,6 +1,6 @@
 export let config = {
 	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
-	'dataPath': 'data/states-careers3.json',	
+	'dataPath': 'data/states-careers4.json',	
 	'propertiesToIds': {
 		'PCAPName': {'key': 'State Personalized Career & Academic Plan (PCAP) Name','isLink': false},
 		'PCAPContact': {'key': 'PCAP Contact','isLink': false},
