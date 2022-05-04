@@ -15,13 +15,13 @@ export let config = {
 		'SEL-Workforce': {'key': 'SEL-Workforce','isLink': true},		
 	},
 	'stateRecoms': {
-		'PCAPWebpage': ['Alaska', 'Colorado', 'Kansas', 'Kentucky', 'Oklahoma', 'Pennsylvania', 'Wisconsin'],
-		'PCAPGuide': ['Colorado', 'Kansas'],
-		'PCAPPlatform': ['Alabama', 'Alaska', 'Massachusetts', 'Minnesota', 'Ohio', 'South Dakota', 'Wisconsin'],
-		'ESSAPlan': ['Colorado', 'Kansas', 'Ohio', 'Oklahoma', 'Pennsylvania', 'Rhode Island'],
-		'PerkinsVPlan': ['Indiana', 'Rhode Island', 'Wisconsin'],
-		'K12CTE': ['Colorado', 'Illinois', 'Iowa', 'Massachusetts', 'Rhode Island', 'Tennessee', 'Virginia', 'Washington', 'Wisconsin'],
-		'K12WBL': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island'],
-		'K12WBLGuide': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island']
+		'Personalized Career & Academic Plan (PCAP) Process': ['Alaska', 'Arizona', 'Colorado', 'Connecticut', 'Delaware', 'Iowa', 'Idaho', 'Kansas', 'Kentucky', 'Massachusetts', 'Michigan', 'Minnesota', 'Missouri', 'Ohio', 'Oklahoma', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Virginia', 'Washington', 'Wisconsin'],
+		'Social & Emotional Learning (SEL) & Workforce Skills': ['Delaware', 'Kansas', 'Kentucky', 'Massachusetts', 'North Dakota', 'Nevada', 'Ohio', 'Pennsylvania', 'Utah', 'Wisconsin'],
+		'Career & Technical Education (CTE) & Career Advising': ['Alabama', 'Connecticut', 'Delaware', 'Illinois', 'Indiana', 'Massachusetts', 'Nevada', 'Ohio', 'Rhode Island', 'Tennessee', 'Virginia', 'Vermont', 'Wisconsin', 'Wyoming'],
+		'Work-Based Learning (WBL)': ['Delaware', 'Georgia', 'Iowa', 'Indiana', 'Massachusetts', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'Tennessee', 'Virginia', 'Washington'],
+		//'PerkinsVPlan': ['Indiana', 'Rhode Island', 'Wisconsin'],
+		//'K12CTE': ['Colorado', 'Illinois', 'Iowa', 'Massachusetts', 'Rhode Island', 'Tennessee', 'Virginia', 'Washington', 'Wisconsin'],
+		//'K12WBL': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island'],
+		//'K12WBLGuide': ['Delaware', 'Georgia', 'Iowa', 'Massachusetts', 'Ohio', 'Rhode Island']
 	}	
 }
