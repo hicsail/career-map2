@@ -1,17 +1,18 @@
 export let config = {
 	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
-	'dataPath': 'data/states-careers4.json',	
+	'dataPath': 'data/states-careers5.json',	
 	'propertiesToIds': {
-		'PCAPName': {'key': 'State Personalized Career & Academic Plan (PCAP) Name','isLink': false},
+		'PCAPName': {'key': 'PCAP Name','isLink': false},
 		'PCAPContact': {'key': 'PCAP Contact','isLink': false},
-		'PCAPWebpage': {'key': 'State PCAP Webpage','isLink': true},
+		'PCAPWebpage': {'key': 'PCAP Webpage','isLink': true},
 		'PCAPGuide': {'key': 'PCAP Guide', 'isLink': true},
 		'ESSAPlan': {'key': 'ESSA Plan (Equity Approach)','isLink': true},
 		'PCAPPlatform': {'key': 'PCAP Technology Platform','isLink': true},
 		'PerkinsVPlan': {'key': 'Perkins V (Career & Technical Education-CTE) Plan','isLink': true},
 		'K12CTE': {'key': 'K12 CTE','isLink': true},	
 		'K12WBL': {'key': 'K12 Work-Based Learning (WBL)','isLink': true},
-		'K12WBLGuide': {'key': 'K12 WBL Guide','isLink': true}		
+		'K12WBLGuide': {'key': 'K12 WBL Guide','isLink': true},
+		'SEL-Workforce': {'key': 'SEL-Workforce','isLink': true},		
 	},
 	'stateRecoms': {
 		'PCAPWebpage': ['Alaska', 'Colorado', 'Kansas', 'Kentucky', 'Oklahoma', 'Pennsylvania', 'Wisconsin'],
