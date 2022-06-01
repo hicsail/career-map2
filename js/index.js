@@ -63,7 +63,7 @@ mapboxgl.accessToken = CONFIG['accessToken'];
 let map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v10',
-    center: [-95.5, 51.907],
+    center: [-95.5, 55.907],
     zoom: 3,
     //minZoom: 4.1,    
 });

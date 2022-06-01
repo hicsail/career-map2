@@ -16,40 +16,50 @@
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="dropdown show" id="score-dropdown">
-  <a class="btn btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownBtn">
-    CCD Center State Recommendation
-  </a>
-  <div class="dropdown-menu" id="score-dropdown-menu">
-    <div class="card" style="padding:5px;">
-        <div class="card-header bg-info text-white">
-            Categories 
-        </div>                           
-        <div id="scores" class="card-body">
-            <div class="form-check">
-                <label>
-                    <input class="form-check-input" name="score-radio" type="radio" value="Personalized Career & Academic Plan (PCAP) Process">Personalized Career & Academic Plan (PCAP) Process
-                </label>     
-            </div>
-            <div class="form-check">
-            <label>
-                <input class="form-check-input" type="radio" name="score-radio" value="Social & Emotional Learning (SEL) & Workforce Skills">Social & Emotional Learning (SEL) & Workforce Skills 
-            </label>                
-            </div>
-            <div class="form-check">
-                <label>
-                    <input class="form-check-input" type="radio" name="score-radio" value="Career & Technical Education (CTE) & Career Advising">Career & Technical Education (CTE) & Career Advising
-                <label>                
-            </div>
-            <div class="form-check">
-                <label>
-                    <input class="form-check-input" type="radio" name="score-radio" value="Work-Based Learning (WBL)">Work-Based Learning (WBL)
-                <label>                
-            </div>            
-        </div>               
-    </div>        
-  </div>
-</div>                
+<!-- top nav bar -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-info fixed-top" style="left:25%">
+    <a class="navbar-brand navbar-right" href="#">
+        <img src="logos/logo.png" alt="..." style="width:14%; height:2%">
+        State Career Readiness Resources
+    </a>
+
+    <ul class="nav navbar-nav navbar-left">
+        <li class="nav-item dropdown dropleft">            
+            <a class="btn btn-info dropdown-toggle navbar-btn" href="#" role="button" data-toggle="dropdown" id="dropdownBtn">
+                CCD Center State Recommendation
+            </a>
+            <div class="dropdown-menu" id="score-dropdown-menu">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Categories 
+                    </div>                           
+                    <div id="scores" class="card-body">
+                        <div class="form-check">
+                            <label>
+                                <input class="form-check-input" name="score-radio" type="radio" value="Personalized Career & Academic Plan (PCAP) Process">Personalized Career & Academic Plan (PCAP) Process
+                            </label>     
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input class="form-check-input" type="radio" name="score-radio" value="Social & Emotional Learning (SEL) & Workforce Skills">Social & Emotional Learning (SEL) & Workforce Skills 
+                            </label>                
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input class="form-check-input" type="radio" name="score-radio" value="Career & Technical Education (CTE) & Career Advising">Career & Technical Education (CTE) & Career Advising
+                            </label>                
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input class="form-check-input" type="radio" name="score-radio" value="Work-Based Learning (WBL)">Work-Based Learning (WBL)
+                            </label>                
+                        </div>            
+                    </div>               
+                </div>        
+            </div>                 
+        </li>
+    </ul>
+</nav>        
 
 <!-- map container -->
 <div id="map"></div>
