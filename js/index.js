@@ -62,10 +62,61 @@ mapboxgl.accessToken = CONFIG['accessToken'];
 
 let map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v10',
-    center: [-95.5, 55.907],
-    zoom: 3,
-    //minZoom: 4.1,    
+    center: [6.488225311417807, -0.8537180459902345],
+    zoom: 3.565749355901551,
+    style: {
+        version: 8,
+        sources: {
+            composite: {
+                id: 'states',
+                url: 'mapbox://mbxsolutions.albersusa-points,mbxsolutions.albersusa',
+                type: 'vector'
+            }
+        },
+        glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
+        layers: [{
+            id: 'states',
+            type: 'fill',
+            source: 'composite',
+            'source-layer': 'albersusa',
+            filter: [
+                'all',
+                ['match', ['get', 'type'], ['state'], true, false],
+                ['match', ['get', 'state_abbrev'], ['PR'], false, true]
+            ],
+            paint: {
+                'fill-color': '#C0C0C0',
+            }
+        },{
+            id: 'state-boundaries',
+            type: 'line',
+            source: 'composite',
+            'source-layer': 'albersusa',
+            filter: [
+                'all',
+                ['match', ['get', 'type'], ['state'], true, false],
+                ['match', ['get', 'state_abbrev'], ['PR'], false, true]
+            ],
+            paint: {
+                'line-color': "black",
+            }
+        }, {
+            id: 'state-points',
+            type: 'symbol',
+            source: 'composite',
+            'source-layer': 'albersusa',
+            filter: [
+                'all',
+                ['match', ['get', 'type'], ['state'], true, false],
+                ['match', ['get', 'state_abbrev'], ['PR'], false, true]
+            ],
+            layout: {
+                "text-field": ["to-string", ["get", "state_abbrev"]],
+                "text-font": ["Overpass Mono Bold", "Arial Unicode MS Regular"]
+            },
+            paint: {"text-halo-width": 1, "text-halo-color": "#ffffff"}
+        }]
+    }
 });
 
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
@@ -75,59 +126,24 @@ map.on('load', () => {
     $('.mapboxgl-canvas-container').css('width', '100vh');
     $('.mapboxgl-canvas-container').css('height', '100vh');
     map.resize();
-    map.addSource('states', {
-        'type': 'geojson',
-        'data': statesData
-    });
 
-    // Add a white background layer.
-    map.addLayer({
-        'id': 'bg',
-        'type': 'background',        
-        'paint': { 
-            'background-color': 'white',
-            'background-opacity': 0.6 
-        }
-    });    
- 
-    // Add a layer showing the state polygons.
-    map.addLayer({
-        'id': 'states-layer',
-        'type': 'fill',
-        'source': 'states',
-        'paint': {
-            'fill-color': '#C0C0C0',        
-            'fill-outline-color': 'black'
-        }
-    });
+    map.on('click', (e) => {
+        resetStateRecoms();
 
-    // Add a layer for showing the state names.
-    map.addLayer({
-        "id": "clusters-label",
-        "type": "symbol",
-        "source": "states",        
-        "layout": {
-            "text-field": "{name}",
-            "text-font": [
-            "DIN Offc Pro Medium",
-            "Arial Unicode MS Bold"
-            ],
-            "text-size": 13
-        }
-    });
- 
+        const bbox = [
+            [e.point.x - 5, e.point.y - 5],
+            [e.point.x + 5, e.point.y + 5]
+        ];
+        const selectedFeatures = map.queryRenderedFeatures(bbox, {
+            layers: ['states']
+        });
+        const stateName = selectedFeatures[0].properties.state_name;
+        const features = statesData.features.filter((f) => f.properties.name === stateName);
 
-    map.on('click', 'states-layer', (e) => { 
+        let properties = features[0].properties;
+        const propToIds = CONFIG['propertiesToIds'];
 
-        resetStateRecoms();           
-
-        let properties = e.features[0].properties;
-        const coordinates = e.features[0].geometry.coordinates;
-        const propToIds = CONFIG['propertiesToIds']; 
-        const stateName = properties['name'];
-
-        map.setPaintProperty('states-layer', 'fill-color', ['case', ["==", ['get', 'name'], stateName], '#5bc0de', '#C0C0C0']);    
-
+        map.setPaintProperty('states', 'fill-color', ['case', ["==", ['get', 'state_name'], stateName], '#5bc0de', '#C0C0C0']);
         $("#stateName").removeClass("d-none").empty().text("Links for " + stateName);        
         $("#links").empty()
         for (const id in propToIds) {
@@ -135,7 +151,7 @@ map.on('load', () => {
             $("#links").append("<ul id='" + id + "'></ul>");
             
             const key = propToIds[id]['key'];
-            const links = JSON.parse(properties[key]);        
+            const links = properties[key];        
 
             $("#" + id).append("<p class='text-dark font-weight-bold'>" + key + "</p>");
             if (links.length === 0) {            
