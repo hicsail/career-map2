@@ -104,7 +104,7 @@ let map = new mapboxgl.Map({
             id: 'state-points',
             type: 'symbol',
             source: 'composite',
-            'source-layer': 'albersusa',
+            'source-layer': 'albersusa-points',
             filter: [
                 'all',
                 ['match', ['get', 'type'], ['state'], true, false],
