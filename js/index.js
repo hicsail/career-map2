@@ -18,12 +18,13 @@ function ajax_get(url, callback) {
     xmlhttp.send();
 }
 
-function onScoresRadioChange(stateRecoms) {
-    $("#scores input[name='score-radio']").change(function() {
+function onScoresRadioChange(stateRecoms) { 
+   
+    $("#scores input[name='score-radio']").change(function() {        
         if ($(this).is(':checked')) {            
-            map.setPaintProperty('states-layer', 'fill-color', [
+            map.setPaintProperty('states', 'fill-color', [
                                                                 'case', 
-                                                                ["in", ['get', 'name'], ['literal', stateRecoms[$(this).val()]]], 
+                                                                ["in", ['get', 'state_name'], ['literal', stateRecoms[$(this).val()]]], 
                                                                 '#f0ad4e', 
                                                                 '#C0C0C0']);
             $("#dropdownBtn").text('CCD Center State Recommendation: ' + $(this).val());            
@@ -174,12 +175,12 @@ map.on('load', () => {
     });
  
 
-    map.on('mouseenter', 'states-layer', () => {
+    map.on('mouseenter', 'states', () => {
         map.getCanvas().style.cursor = 'pointer';
     });
  
 
-    map.on('mouseleave', 'states-layer', () => {
+    map.on('mouseleave', 'states', () => {
         map.getCanvas().style.cursor = '';
     });
 });
