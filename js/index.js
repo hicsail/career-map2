@@ -1,4 +1,6 @@
-import * as config from './config.js'
+import * as config from './config.js';
+
+const CONFIG = config['config'];
 
 function ajax_get(url, callback) {
     var xmlhttp = new XMLHttpRequest();
@@ -18,19 +20,26 @@ function ajax_get(url, callback) {
     xmlhttp.send();
 }
 
-function onScoresRadioChange(stateRecoms) { 
-   
-    $("#scores input[name='score-radio']").change(function() {        
-        if ($(this).is(':checked')) {            
-            map.setPaintProperty('states', 'fill-color', [
-                                                                'case', 
-                                                                ["in", ['get', 'state_name'], ['literal', stateRecoms[$(this).val()]]], 
-                                                                '#f0ad4e', 
-                                                                '#C0C0C0']);
+function attachOnChangeEventToStateRecomOpts(stateRecoms, defaultColor, stateRecomHighlightColor) { 
+    
+    $("#scores input[name='score-radio']").change(function() { 
+              
+        if ($(this).is(':checked')) { 
+            const states = stateRecoms[$(this).val()];
+            resetSmallSateBadgesColor(defaultColor);
+            map.setPaintProperty('states', 'fill-color', ['case', 
+                                                         ["in", ['get', 'state_name'], ['literal', stateRecoms[$(this).val()]]], 
+                                                         stateRecomHighlightColor, 
+                                                         defaultColor]);
+
             $("#dropdownBtn").text('CCD Center State Recommendation: ' + $(this).val());            
-        }                          
+            for (const state of states) {                
+                highlightSmallStateBadge(state, defaultColor, stateRecomHighlightColor); 
+            }            
+        }                               
     });    
 }
+
 
 function getSelectedScore() {
 
@@ -52,9 +61,80 @@ function resetStateRecoms() {
     });    
 }
 
-const CONFIG = config['config'];
-let statesData = null;
+function attachClickEventToStateBadges() {
 
+     $("#state-legends div").each(function() {
+        $(this).on( "click", function() {
+            const stateName = $(this).attr("name");            
+            onClickState(stateName);            
+        });           
+    });
+}
+
+function resetSmallSateBadgesColor(defaultColor) {
+
+    $("#state-legends div").each(function() {               
+        if ($(this).attr("name") === stateName) {            
+            $(this).css("background-color", hightlightColor);    
+        }
+        else {
+            $(this).css("background-color", defaultColor);    
+        }        
+    });
+}
+
+function highlightSmallStateBadge(stateName, defaultColor, hightlightColor) {
+    
+    $("#state-legends").find("[name='" + stateName + "']").css("background-color", hightlightColor);  
+}
+
+function onClickState(stateName) {
+    
+    resetStateRecoms();
+    resetSmallSateBadgesColor(CONFIG['defaultColor']);
+    highlightSmallStateBadge(stateName, CONFIG['defaultColor'], CONFIG['onClickHightlightColor']);
+    
+
+    const features = statesData.features.filter((f) => f.properties.name === stateName);
+    let properties = features[0].properties;
+    const propToIds = CONFIG['propertiesToIds'];
+
+
+    map.setPaintProperty('states', 'fill-color', 
+                        ['case', ["==", ['get', 'state_name'], stateName], 
+                        CONFIG['onClickHightlightColor'], 
+                        CONFIG['defaultColor']]);
+
+    $("#stateName").removeClass("d-none").empty().text("Links for " + stateName);        
+    $("#links").empty()
+    for (const id in propToIds) {
+
+        $("#links").append("<ul id='" + id + "'></ul>");
+            
+        const key = propToIds[id]['key'];
+        const links = properties[key];        
+
+        $("#" + id).append("<p class='text-dark font-weight-bold'>" + key + "</p>");
+        if (links.length === 0) {            
+            $("#" + id).append("<p class='text-secondary'>No resource found</p>")
+        } 
+        if (propToIds[id]['isLink']) {            
+            for (let i = 0; i < links.length; ++i) {                                                               
+                $("#" + id).append("<li><a target='_blank' class='text-success' href='" + links[i] + "'>" + key + " " + (i+1) + "</a></li><br>");                                                
+            }
+        }
+        else {                                      
+            for (const elm of links) {
+                $("#" + id).append("<li><p class='text-secondary'>" + elm + "</p></li>");
+            }
+                                     
+        }
+        $("#links").append("<hr class='mt-1 font-weight-bold'>");        
+    }
+}
+
+
+let statesData = null;
 ajax_get(CONFIG['dataPath'], function (d) {
      statesData = d;    
 });
@@ -63,8 +143,12 @@ mapboxgl.accessToken = CONFIG['accessToken'];
 
 let map = new mapboxgl.Map({
     container: 'map',
-    center: [6.488225311417807, -0.8537180459902345],
-    zoom: 3.565749355901551,
+    center: [6.488225311417817, 1.02337180459902346],
+    zoom: 4.6,//3.565749355901551,
+    dragPan: false, 
+    pitchWithRotate: false,
+    dragRotate: false,
+    touchZoomRotate: false,   
     style: {
         version: 8,
         sources: {
@@ -86,7 +170,7 @@ let map = new mapboxgl.Map({
                 ['match', ['get', 'state_abbrev'], ['PR'], false, true]
             ],
             paint: {
-                'fill-color': '#C0C0C0',
+                'fill-color': CONFIG['defaultColor'],
             }
         },{
             id: 'state-boundaries',
@@ -121,6 +205,7 @@ let map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+map.scrollZoom.disable();
  
 map.on('load', () => {
     var $ = window["$"];
@@ -129,8 +214,6 @@ map.on('load', () => {
     map.resize();
 
     map.on('click', (e) => {
-        resetStateRecoms();
-
         const bbox = [
             [e.point.x - 5, e.point.y - 5],
             [e.point.x + 5, e.point.y + 5]
@@ -139,39 +222,7 @@ map.on('load', () => {
             layers: ['states']
         });
         const stateName = selectedFeatures[0].properties.state_name;
-        const features = statesData.features.filter((f) => f.properties.name === stateName);
-
-        let properties = features[0].properties;
-        const propToIds = CONFIG['propertiesToIds'];
-
-        map.setPaintProperty('states', 'fill-color', ['case', ["==", ['get', 'state_name'], stateName], '#5bc0de', '#C0C0C0']);
-        $("#stateName").removeClass("d-none").empty().text("Links for " + stateName);        
-        $("#links").empty()
-        for (const id in propToIds) {
-
-            $("#links").append("<ul id='" + id + "'></ul>");
-            
-            const key = propToIds[id]['key'];
-            const links = properties[key];        
-
-            $("#" + id).append("<p class='text-dark font-weight-bold'>" + key + "</p>");
-            if (links.length === 0) {            
-                $("#" + id).append("<p class='text-secondary'>No resource found</p>")
-            } 
-            if (propToIds[id]['isLink']) {            
-                for (let i = 0; i < links.length; ++i) {                                                               
-                    $("#" + id).append("<li><a target='_blank' class='text-success' href='" + links[i] + "'>" + key + " " + (i+1) + "</a></li><br>");                                                
-                }
-            }
-            else {                                      
-                for (const elm of links) {
-                    $("#" + id).append("<li><p class='text-secondary'>" + elm + "</p></li>");
-                }
-                                     
-            }
-            $("#links").append("<hr class='mt-1 font-weight-bold'>");        
-        }  
-
+        onClickState(stateName);
     });
  
 
@@ -186,6 +237,7 @@ map.on('load', () => {
 });
 
 
-$(document).ready(function(){     
-    onScoresRadioChange(CONFIG['stateRecoms']);   
+$(document).ready(function(){       
+    attachOnChangeEventToStateRecomOpts(CONFIG['stateRecoms'], CONFIG['defaultColor'], CONFIG['stateRecomHighlightColor']); 
+    attachClickEventToStateBadges();  
 });
