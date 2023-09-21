@@ -4,6 +4,14 @@ export let config = {
 	'stateRecomHighlightColor': '#f0ad4e',
 	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
 	'dataPath': 'data/states-careers-2022-10.json', //'data/states-careers5.json',	
+  'scoreDataPath': "data/states-careers-score.json",
+  'colorPalette': {
+	'youth': {'color': "#3182BD", 'scale': 5},
+    'adulthood1': {'color': "#DE2D26",'scale': 5},
+    'adulthood2': {'color': "#F17418",'scale': 5},
+    'social': {'color': "#756BB1",'scale': 5},
+    'overall': {'color': "#31A354",'scale': 5}
+  },
 	'propertiesToIds': {
 		'PCAPName': {'key': 'PCAP Name','isLink': false},
 		'PCAPContact': {'key': 'PCAP Contact','isLink': false},

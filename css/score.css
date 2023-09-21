@@ -1,0 +1,15 @@
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80%;
+}
+
+#bottom-dash {
+  position: absolute;
+  background-color: #17a2b8;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+}
