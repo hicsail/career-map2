@@ -1,6 +1,7 @@
 import * as config from "./config.js";
 
 const CONFIG = config["config"];
+const themes = ["youth", "adulthood1", "adulthood2", "social"];
 const boundingBox = [
   [-25, 14],
   [23, -14],
@@ -58,9 +59,10 @@ function getLuminance(color) {
 
 function onHoverState(state, abbr) {
   $("#bottom-dash .state-name").find("span").text(state);
-  for (const indicator of ["youth", "adulthood1", "adulthood2", "social"]) {
-    const score = Math.round((scoreData[abbr][indicator]["cr_score100"] + Number.EPSILON) * 100) / 100;
-    $(`.state-row .${indicator}-score`).empty().html(`<span>${score}</span>`);
+  for (const theme of themes) {
+    const score = Math.round((scoreData[abbr][theme]["cr_score100"] + Number.EPSILON) * 100) / 100;
+    $(`.state-row .${theme}-score`).empty().html(`<span>${score}</span>`);
+    generateProgressBar("state", theme, score, colorScale[theme][colorPalette[theme]["scale"] - 1]);
   }
 }
 
@@ -91,6 +93,7 @@ function paintState(theme) {
   expression.push("#cdcdcd");
 
   map.setPaintProperty("state", "fill-color", expression);
+  $("#choropleth-legend").empty();
   for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
     const item = $("<div></div>");
     const colorBox = $("<span></span>").css("background-color", colorScale[theme][idx]);
@@ -98,6 +101,15 @@ function paintState(theme) {
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
   }
+}
+
+function generateProgressBar(row, theme, score, color) {
+  $(`.${row}-row .${theme}-score`).empty().html(`
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: ${score}%; background-color: ${color}">
+          <span>${score}</span>
+        </div>
+      </div>`);
 }
 
 mapboxgl.accessToken = CONFIG["accessToken"];
@@ -191,7 +203,7 @@ map.on("load", () => {
   map.fitBounds(boundingBox);
   paintState(currentTheme);
 
-  for (const theme of ["youth", "adulthood1", "adulthood2", "social"]) {
+  for (const theme of themes) {
     let accumScore = 0;
     let numStates = 50;
     for (const stateAbbr of Object.keys(scoreData)) {
@@ -204,8 +216,7 @@ map.on("load", () => {
     }
 
     const nationalScore = Math.round((accumScore / numStates + Number.EPSILON) * 100) / 100;
-
-    $(`.national-row .${theme}-score`).empty().html(`<span>${nationalScore}</span>`);
+    generateProgressBar("national", theme, nationalScore, colorScale[theme][colorPalette[theme]["scale"] - 1]);
   }
 
   map.on("mousemove", "state", (e) => {
@@ -225,6 +236,13 @@ map.on("load", () => {
   map.on("mouseleave", "state", () => {
     map.getCanvas().style.cursor = "";
   });
+});
+
+$("#bottom-dash .chart-header .btn").click(function () {
+  const theme = $(this).attr("value");
+  if (theme === currentTheme) return;
+  currentTheme = theme;
+  paintState(theme);
 });
 
 $("#state-legends .state-badge").hover(function () {
