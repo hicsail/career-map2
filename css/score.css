@@ -22,6 +22,34 @@
   text-align: center;
 }
 
+.legend {
+  position: absolute;
+  bottom: 25%;
+  left: 20px;
+  line-height: 1;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+}
+
+.legend span {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* The color box in the legend */
+.legend span:first-child {
+  width: 30px;
+  height: 30px;
+}
+
 #bottom-dash {
   position: absolute;
   background-color: #17a2b8;

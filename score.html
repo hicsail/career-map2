@@ -57,6 +57,8 @@
     </nav>
 
     <div id="map"></div>
+    <div id="choropleth-legend" class="legend"></div>
+
     <div id="state-legends" style="cursor: pointer">
       <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
       <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
@@ -67,17 +69,40 @@
     </div>
 
     <div id="bottom-dash">
-      <div id="col">
-        <ul>
-          <li><span></span></li>
-          <li><span>National Average</span></li>
-        </ul>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="chart">
+              <div class="row chart-header">
+                <div class="col head"></div>
+                <div id="youth-head" class="col head" name="youth">Launching Future Ready Youth</div>
+                <div id="adulthood1-head" class="col head" name="adulthood1">Postsecondary Outcomes</div>
+                <div id="adulthood2-head" class="col head" name="adulthood2">
+                  Young Adults Deserve a Brighter Future
+                </div>
+                <div id="social-head" class="col head" name="social">Social Mobility</div>
+                <div id="overall-head" class="col head" name="overall">Overall</div>
+              </div>
+              <div class="row state-row">
+                <div class="col state-name"><span></span></div>
+                <div class="col youth-score"></div>
+                <div class="col adulthood1-score"></div>
+                <div class="col adulthood2-score"></div>
+                <div class="col social-score"></div>
+                <div class="col overall-score"></div>
+              </div>
+              <div class="row national-row">
+                <div class="col"><span>National Average</span></div>
+                <div class="col youth-score"></div>
+                <div class="col adulthood1-score"></div>
+                <div class="col adulthood2-score"></div>
+                <div class="col social-score"></div>
+                <div class="col overall-score"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="youth"></div>
-      <div id="adulthood1"></div>
-      <div id="adulthood2"></div>
-      <div id="social"></div>
-      <div id="overall"></div>
     </div>
 
     <script src="js/score.js" type="module"></script>
