@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Career readiness map</title>
-    <meta
-      name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
-    />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
     <link
       rel="stylesheet"
@@ -30,17 +27,11 @@
       crossorigin="anonymous"
     ></script>
 
-    <link
-      href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
-      rel="stylesheet"
-    />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
   </head>
   <body>
-    <nav
-      class="navbar navbar-expand-sm navbar-dark bg-info fixed-top"
-      style="height: 80px"
-    >
+    <nav class="navbar navbar-expand-sm navbar-dark bg-info fixed-top" style="height: 80px">
       <a class="navbar-brand navbar-right" href="#" style="height: 100%">
         <img src="logos/logo.png" alt="..." style="height: 100%" />
         State Career Readiness Resources
@@ -66,6 +57,14 @@
     </nav>
 
     <div id="map"></div>
+    <div id="state-legends" style="cursor: pointer">
+      <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
+      <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
+      <div id="ct-badge" class="state-badge mt-2 p-2" name="Connecticut">CT</div>
+      <div id="nj-badge" class="state-badge mt-2 p-2" name="New Jersey">NJ</div>
+      <div id="de-badge" class="state-badge mt-2 p-2" name="Delaware">DE</div>
+      <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
+    </div>
 
     <div id="bottom-dash">
       <div id="col">

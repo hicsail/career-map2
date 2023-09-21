@@ -1,6 +1,11 @@
 import * as config from "./config.js";
 
 const CONFIG = config["config"];
+const boundingBox = [
+  [-25, 14],
+  [23, -14],
+];
+
 function ajax_get(url, callback) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
@@ -33,12 +38,18 @@ function createColorScale(color, scale) {
     const newRed = Math.round(255 + i * deltaRed);
     const newGreen = Math.round(255 + i * deltaGreen);
     const newBlue = Math.round(255 + i * deltaBlue);
-    colorScale.push(
-      `#${newRed.toString(16)}${newGreen.toString(16)}${newBlue.toString(16)}`
-    );
+    colorScale.push(`#${newRed.toString(16)}${newGreen.toString(16)}${newBlue.toString(16)}`);
   }
 
   return colorScale;
+}
+
+function getLuminance(color) {
+  const red = parseInt(color.slice(1, 3), 16);
+  const green = parseInt(color.slice(3, 5), 16);
+  const blue = parseInt(color.slice(5, 7), 16);
+
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
 }
 
 function onHoverState(state, abbr) {
@@ -48,34 +59,17 @@ function onHoverState(state, abbr) {
   for (const indicator of ["youth", "adulthood1", "adulthood2", "social"]) {
     $(`#${indicator}`)
       .empty()
-      .html(
-        `<ul><li><span>${scoreData[abbr][indicator]["cr_score100"]}</span></li><li><span></span></li></ul>`
-      );
+      .html(`<ul><li><span>${scoreData[abbr][indicator]["cr_score100"]}</span></li><li><span></span></li></ul>`);
   }
 }
 
 const colorPalette = CONFIG["colorPalette"];
 const colorScale = {
-  youth: createColorScale(
-    colorPalette["youth"]["color"],
-    colorPalette["youth"]["scale"]
-  ),
-  adulthood1: createColorScale(
-    colorPalette["adulthood1"]["color"],
-    colorPalette["adulthood1"]["scale"]
-  ),
-  adulthood2: createColorScale(
-    colorPalette["adulthood2"]["color"],
-    colorPalette["adulthood2"]["scale"]
-  ),
-  social: createColorScale(
-    colorPalette["social"]["color"],
-    colorPalette["social"]["scale"]
-  ),
-  overall: createColorScale(
-    colorPalette["overall"]["color"],
-    colorPalette["overall"]["scale"]
-  ),
+  youth: createColorScale(colorPalette["youth"]["color"], colorPalette["youth"]["scale"]),
+  adulthood1: createColorScale(colorPalette["adulthood1"]["color"], colorPalette["adulthood1"]["scale"]),
+  adulthood2: createColorScale(colorPalette["adulthood2"]["color"], colorPalette["adulthood2"]["scale"]),
+  social: createColorScale(colorPalette["social"]["color"], colorPalette["social"]["scale"]),
+  overall: createColorScale(colorPalette["overall"]["color"], colorPalette["overall"]["scale"]),
 };
 
 function paintState(theme) {
@@ -89,6 +83,8 @@ function paintState(theme) {
     const color = colorScale[theme][level];
 
     expression.push(stateAbbr, color);
+    $(`#${stateAbbr.toLowerCase()}-badge`).css("background-color", color);
+    $(`#${stateAbbr.toLowerCase()}-badge`).css("color", getLuminance(color) > 200 ? "#000" : "#fff");
   }
   expression.push("#cdcdcd");
 
@@ -126,7 +122,7 @@ const map = new mapboxgl.Map({
         type: "fill",
         source: "composite",
         "source-layer": "albersusa",
-        filter: ["all", ["==", "type", "state"], ["!=", "state_abbrev", "PR"]],
+        filter: ["all", ["==", "type", "state"], ["!in", "state_abbrev", "PR", "DC"]],
         paint: {
           "fill-color": "#cdcdcd",
         },
@@ -137,17 +133,37 @@ const map = new mapboxgl.Map({
         type: "line",
         source: "composite",
         "source-layer": "albersusa",
-        filter: ["all", ["==", "type", "state"], ["!=", "state_abbrev", "PR"]],
+        filter: ["all", ["==", "type", "state"], ["!in", "state_abbrev", "PR", "DC"]],
         paint: {
           "line-color": "#6b6b6b",
         },
       },
       {
-        id: "state-points",
+        id: "state-fullname",
         type: "symbol",
         source: "composite",
         "source-layer": "albersusa-points",
-        filter: ["all", ["==", "type", "state"], ["!=", "state_abbrev", "PR"]],
+        filter: [
+          "all",
+          ["==", "type", "state"],
+          ["!in", "state_abbrev", "PR", "DC", "VT", "NH", "MA", "DC", "RI", "CT", "NJ", "MD", "DE"],
+        ],
+        layout: {
+          "text-field": ["to-string", ["get", "state_name"]],
+          "text-font": ["Arial Unicode MS Regular"],
+        },
+      },
+      {
+        id: "state-abbr",
+        type: "symbol",
+        source: "composite",
+        "source-layer": "albersusa-points",
+        filter: [
+          "all",
+          ["==", "type", "state"],
+          ["!in", "state_abbrev", "PR", "DC"],
+          ["in", "state_abbrev", "VT", "NH", "MA", "DC", "RI", "CT", "NJ", "MD", "DE"],
+        ],
         layout: {
           "text-field": ["to-string", ["get", "state_abbrev"]],
           "text-font": ["Arial Unicode MS Regular"],
@@ -162,6 +178,7 @@ const map = new mapboxgl.Map({
 let previousState = null;
 let currentTheme = "youth";
 map.on("load", () => {
+  map.fitBounds(boundingBox);
   paintState(currentTheme);
 
   map.on("mousemove", "state", (e) => {
