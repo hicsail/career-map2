@@ -52,8 +52,31 @@
 
 #bottom-dash {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: #17a2b8;
   bottom: 0;
   width: 100%;
   height: 20%;
+}
+
+#bottom-dash .row {
+  margin-bottom: 5px;
+}
+
+#bottom-dash .btn:hover {
+  background-color: #17a2b8;
+  
+}
+
+#bottom-dash .chart-header {
+  margin-bottom: 10px;
+}
+
+#bottom-dash-container {
+  background-color: #45b5c6;
+  border-radius: 10px;
+  padding: 10px;
 }
