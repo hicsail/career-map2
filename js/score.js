@@ -75,10 +75,10 @@ const colorScale = {
   overall: createColorScale(colorPalette["overall"]["color"], colorPalette["overall"]["scale"]),
 };
 
-function paintState(theme) {
+function paintState(theme, subTheme = "cr_score100", percentage = true) {
   const expression = ["match", ["get", "state_abbrev"]];
   for (const stateAbbr of Object.keys(scoreData)) {
-    const score = scoreData[stateAbbr][theme]["cr_score100"];
+    const score = scoreData[stateAbbr][theme][subTheme];
 
     let level = Math.floor(score / (100 / colorPalette[theme]["scale"] + 1)) + 1;
     if (level === colorPalette[theme]["scale"].length) level--;
@@ -97,15 +97,45 @@ function paintState(theme) {
   for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
     const item = $("<div></div>");
     const colorBox = $("<span></span>").css("background-color", colorScale[theme][idx]);
-    const text = $("<span></span>").text("test");
+
+    let text = $("<span></span>").text(
+      `${(idx - 1) * (100 / colorPalette[theme]["scale"])} - ${idx * (100 / colorPalette[theme]["scale"])}%`
+    );
+    if (idx === 0) text = $("<span></span>").text(`0%`);
+
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
   }
 }
 
+function updateSideDropdown(theme, subTheme = "cr_score100") {
+  if (subTheme === "cr_score100") {
+    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][theme]);
+  } else {
+    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][subTheme]);
+  }
+  $("#side-dropdown a.dropdown-toggle").css("color", "#fff");
+  $("#side-dropdown a.dropdown-toggle").css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+  $("#side-dropdown .dropdown-menu").empty();
+  for (const subTheme of Object.keys(scoreData["AK"][theme])) {
+    if (!CONFIG["propertiesToNames"][subTheme].includes("%")) {
+      if (subTheme !== "cr_score100") continue;
+    }
+
+    $("#side-dropdown .dropdown-menu").append(
+      `<a class="dropdown-item" name="${subTheme}">${CONFIG["propertiesToNames"][subTheme]}</a>`
+    );
+    $(`#side-dropdown .dropdown-menu a[name="${subTheme}"]`).click(function () {
+      const subTheme = $(this).attr("name");
+      paintState(theme, subTheme);
+      updateSideDropdown(theme, subTheme);
+    });
+  }
+}
+
 function generateProgressBar(row, theme, score, color) {
   $(`.${row}-row .${theme}-score`).empty().html(`
-      <div class="progress">
+      <div class="progress" style="height: 20px">
         <div class="progress-bar" role="progressbar" style="width: ${score}%; background-color: ${color}">
           <span>${score}</span>
         </div>
@@ -199,9 +229,11 @@ const map = new mapboxgl.Map({
 
 let previousState = null;
 let currentTheme = "youth";
+let currentSubTheme = "cr_score100";
 map.on("load", () => {
   map.fitBounds(boundingBox);
   paintState(currentTheme);
+  updateSideDropdown(currentTheme);
 
   for (const theme of themes) {
     let accumScore = 0;
@@ -243,6 +275,7 @@ $("#bottom-dash .chart-header .btn").click(function () {
   if (theme === currentTheme) return;
   currentTheme = theme;
   paintState(theme);
+  updateSideDropdown(theme);
 });
 
 $("#state-legends .state-badge").hover(function () {

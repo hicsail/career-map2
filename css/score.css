@@ -11,7 +11,7 @@
   padding: 0px;
   position: absolute;
   z-index: 1;
-  bottom: 25%;
+  bottom: calc(25% + 50px);
   right: 3%;
 }
 
@@ -48,6 +48,12 @@
 .legend span:first-child {
   width: 30px;
   height: 30px;
+}
+
+#side-dropdown {
+  position: absolute;
+  bottom: 25%;
+  right: 20px;
 }
 
 #bottom-dash {

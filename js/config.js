@@ -26,6 +26,11 @@ export let config = {
     "SEL-Workforce": { key: "SEL-Workforce", isLink: true },
   },
   propertiesToNames: {
+    youth: "Future Ready Youth",
+    adulthood1: "Postsecondary Outcomes",
+    adulthood2: "Young Adults Deserve a Brighter Future",
+    social: "Social Mobility",
+    overall: "Overall Score",
     rank: "Rank",
     rank_cr12: "Rank (based on CR score 1 and 2)",
     rank_cr3: "Rank (based on CR score 3)",
@@ -48,7 +53,7 @@ export let config = {
     cr_score100: "CR Score (0~100 score)",
     cr_score1: "CR Score 1 (average of 4 standardized scores)",
     cr_score2: "CR Score 2 (0~100 score from CR score 1)",
-    cr_score3: "CR Score 3 (0~100 score by averaging four 0~100 scores)"
+    cr_score3: "CR Score 3 (0~100 score by averaging four 0~100 scores)",
   },
   stateRecoms: {
     "Personalized Career & Academic Plan (PCAP) Process": [
