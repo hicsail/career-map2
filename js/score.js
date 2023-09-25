@@ -1,7 +1,7 @@
 import * as config from "./config.js";
 
 const CONFIG = config["config"];
-const themes = ["youth", "adulthood1", "adulthood2", "social"];
+const themes = ["youth", "adulthood1", "adulthood2", "social", "overall"];
 const boundingBox = [
   [-25, 14],
   [23, -14],
@@ -35,7 +35,7 @@ function createColorScale(color, scale) {
   const deltaBlue = (blue - 255) / scale;
 
   const colorScale = [];
-  for (let i = 0; i <= scale; i++) {
+  for (let i = 0; i < scale; i++) {
     const newRed = Math.round(255 + i * deltaRed);
     const newGreen = Math.round(255 + i * deltaGreen);
     const newBlue = Math.round(255 + i * deltaBlue);
@@ -80,11 +80,11 @@ function paintState(theme, subTheme = "cr_score100", percentage = true) {
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
 
-    let level = Math.floor(score / (100 / colorPalette[theme]["scale"] + 1)) + 1;
-    if (level === colorPalette[theme]["scale"].length) level--;
-    if (score === 0) level = 0;
+    let level = Math.floor(score / (100 / colorPalette[theme]["scale"]));
+    if (level === colorPalette[theme]["scale"]) level--;
 
-    const color = colorScale[theme][level];
+    let color = colorScale[theme][level];
+    if (score === null) color = "#cdcdcd";
 
     expression.push(stateAbbr, color);
     $(`#${stateAbbr.toLowerCase()}-badge`).css("background-color", color);
@@ -99,9 +99,8 @@ function paintState(theme, subTheme = "cr_score100", percentage = true) {
     const colorBox = $("<span></span>").css("background-color", colorScale[theme][idx]);
 
     let text = $("<span></span>").text(
-      `${(idx - 1) * (100 / colorPalette[theme]["scale"])} - ${idx * (100 / colorPalette[theme]["scale"])}%`
+      `${idx * (100 / colorPalette[theme]["scale"])} - ${(idx + 1) * (100 / colorPalette[theme]["scale"])}`
     );
-    if (idx === 0) text = $("<span></span>").text(`0%`);
 
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
