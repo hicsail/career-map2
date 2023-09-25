@@ -60,7 +60,9 @@ function getLuminance(color) {
 function onHoverState(state, abbr) {
   $("#bottom-dash .state-name").find("span").text(state);
   for (const theme of themes) {
-    const score = Math.round((scoreData[abbr][theme]["cr_score100"] + Number.EPSILON) * 100) / 100;
+    let subTheme = "cr_score100";
+    if (theme === "overall") subTheme = "cr_score3";
+    const score = Math.round((scoreData[abbr][theme][subTheme] + Number.EPSILON) * 100) / 100;
     $(`.state-row .${theme}-score`).empty().html(`<span>${score}</span>`);
     generateProgressBar("state", theme, score, colorScale[theme][colorPalette[theme]["scale"] - 1]);
   }
@@ -108,7 +110,7 @@ function paintState(theme, subTheme = "cr_score100", percentage = true) {
 }
 
 function updateSideDropdown(theme, subTheme = "cr_score100") {
-  if (subTheme === "cr_score100") {
+  if (subTheme === "cr_score100" || subTheme === "cr_score3") {
     $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][theme]);
   } else {
     $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][subTheme]);
@@ -118,7 +120,7 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   $("#side-dropdown .dropdown-menu").empty();
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     if (!CONFIG["propertiesToNames"][subTheme].includes("%")) {
-      if (subTheme !== "cr_score100") continue;
+      if (!subTheme.includes("cr_score")) continue;
     }
 
     $("#side-dropdown .dropdown-menu").append(
@@ -228,7 +230,6 @@ const map = new mapboxgl.Map({
 
 let previousState = null;
 let currentTheme = "youth";
-let currentSubTheme = "cr_score100";
 map.on("load", () => {
   map.fitBounds(boundingBox);
   paintState(currentTheme);
@@ -238,12 +239,13 @@ map.on("load", () => {
     let accumScore = 0;
     let numStates = 50;
     for (const stateAbbr of Object.keys(scoreData)) {
-      if (scoreData[stateAbbr][theme]["cr_score100"] === null) {
+      const subTheme = theme === "overall" ? "cr_score3" : "cr_score100";
+      if (scoreData[stateAbbr][theme][subTheme] === null) {
         numStates--;
         continue;
       }
 
-      accumScore += scoreData[stateAbbr][theme]["cr_score100"];
+      accumScore += scoreData[stateAbbr][theme][subTheme];
     }
 
     const nationalScore = Math.round((accumScore / numStates + Number.EPSILON) * 100) / 100;
@@ -273,8 +275,13 @@ $("#bottom-dash .chart-header .btn").click(function () {
   const theme = $(this).attr("value");
   if (theme === currentTheme) return;
   currentTheme = theme;
-  paintState(theme);
-  updateSideDropdown(theme);
+  if (theme === "overall") {
+    paintState(theme, "cr_score3");
+    updateSideDropdown(theme, "cr_score3");
+  } else {
+    paintState(theme);
+    updateSideDropdown(theme);
+  }
 });
 
 $("#state-legends .state-badge").hover(function () {
