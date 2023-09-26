@@ -191,33 +191,33 @@ const map = new mapboxgl.Map({
         },
       },
       {
-        id: "state-fullname",
+        id: "state-name-bg",
         type: "symbol",
         source: "composite",
         "source-layer": "albersusa-points",
         filter: [
           "all",
           ["==", "type", "state"],
-          ["!in", "state_abbrev", "PR", "DC", "VT", "NH", "MA", "DC", "RI", "CT", "NJ", "MD", "DE"],
+          ["!in", "state_abbrev", "PR", "DC", "VT", "NH", "MA", "RI", "CT", "NJ", "MD", "DE", "WV", "MS"],
         ],
         layout: {
-          "text-field": ["to-string", ["get", "state_name"]],
+          "text-field": ["step", ["zoom"], ["get", "state_abbrev"], 4, ["get", "state_name"]],
           "text-font": ["Arial Unicode MS Regular"],
+          "text-allow-overlap": true,
         },
       },
       {
-        id: "state-abbr",
+        id: "state-name-sm",
         type: "symbol",
         source: "composite",
         "source-layer": "albersusa-points",
         filter: [
           "all",
           ["==", "type", "state"],
-          ["!in", "state_abbrev", "PR", "DC"],
-          ["in", "state_abbrev", "VT", "NH", "MA", "DC", "RI", "CT", "NJ", "MD", "DE"],
+          ["in", "state_abbrev", "VT", "NH", "MA", "RI", "CT", "NJ", "MD", "DE", "WV", "MS"],
         ],
         layout: {
-          "text-field": ["to-string", ["get", "state_abbrev"]],
+          "text-field": ["step", ["zoom"], ["get", "state_abbrev"], 5, ["get", "state_name"]],
           "text-font": ["Arial Unicode MS Regular"],
         },
       },
@@ -269,6 +269,10 @@ map.on("load", () => {
 
   map.on("mouseleave", "state", () => {
     map.getCanvas().style.cursor = "";
+  });
+
+  map.on("moveend", () => {
+    console.log(map.getZoom());
   });
 });
 
