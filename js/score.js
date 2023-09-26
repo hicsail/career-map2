@@ -155,7 +155,6 @@ const map = new mapboxgl.Map({
   container: "map",
   pitchWithRotate: false,
   dragRotate: false,
-  touchZoomRotate: false,
   style: {
     version: 8,
     name: "Mapbox Streets",
@@ -227,6 +226,8 @@ const map = new mapboxgl.Map({
   center: [0, 1],
   zoom: 4.5,
 });
+
+map.touchZoomRotate.disableRotation();
 
 let previousState = null;
 let currentTheme = "youth";
