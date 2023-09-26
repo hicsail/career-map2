@@ -77,12 +77,13 @@ const colorScale = {
   overall: createColorScale(colorPalette["overall"]["color"], colorPalette["overall"]["scale"]),
 };
 
-function paintState(theme, subTheme = "cr_score100", percentage = true) {
+function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const expression = ["match", ["get", "state_abbrev"]];
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
+    console.log(stateAbbr, score, max, min);
 
-    let level = Math.floor(score / (100 / colorPalette[theme]["scale"]));
+    let level = Math.floor((score - min) / ((max - min) / colorPalette[theme]["scale"]));
     if (level === colorPalette[theme]["scale"]) level--;
 
     let color = colorScale[theme][level];
@@ -101,7 +102,9 @@ function paintState(theme, subTheme = "cr_score100", percentage = true) {
     const colorBox = $("<span></span>").css("background-color", colorScale[theme][idx]);
 
     let text = $("<span></span>").text(
-      `${idx * (100 / colorPalette[theme]["scale"])} - ${(idx + 1) * (100 / colorPalette[theme]["scale"])}`
+      `${Math.floor(idx * ((max - min) / colorPalette[theme]["scale"]) + min)} - ${Math.ceil(
+        (idx + 1) * ((max - min) / colorPalette[theme]["scale"]) + min
+      )}`
     );
 
     item.append(colorBox).append(text);
@@ -119,8 +122,14 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   $("#side-dropdown a.dropdown-toggle").css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
   $("#side-dropdown .dropdown-menu").empty();
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
+    let max = 100;
+    let min = 0;
     if (!CONFIG["propertiesToNames"][subTheme].includes("%")) {
-      if (!subTheme.includes("cr_score")) continue;
+      if (subTheme.includes("rank")) continue;
+      if (!subTheme.includes("cr_score")) {
+        max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
+        min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
+      }
     }
 
     $("#side-dropdown .dropdown-menu").append(
@@ -128,7 +137,7 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
     );
     $(`#side-dropdown .dropdown-menu a[name="${subTheme}"]`).click(function () {
       const subTheme = $(this).attr("name");
-      paintState(theme, subTheme);
+      paintState(theme, subTheme, max, min);
       updateSideDropdown(theme, subTheme);
     });
   }
@@ -269,10 +278,6 @@ map.on("load", () => {
 
   map.on("mouseleave", "state", () => {
     map.getCanvas().style.cursor = "";
-  });
-
-  map.on("moveend", () => {
-    console.log(map.getZoom());
   });
 });
 
