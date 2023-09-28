@@ -143,8 +143,8 @@ mapboxgl.accessToken = CONFIG['accessToken'];
 
 let map = new mapboxgl.Map({
     container: 'map',
-    center: [6.488225311417817, 1.02337180459902346],
-    zoom: 4.6,//3.565749355901551,
+    center: [14, 1.02337180459902346],
+    zoom: 3.2,//3.565749355901551,
     dragPan: false, 
     pitchWithRotate: false,
     dragRotate: false,
