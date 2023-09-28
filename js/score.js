@@ -81,7 +81,6 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const expression = ["match", ["get", "state_abbrev"]];
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
-    console.log(stateAbbr, score, max, min);
 
     let level = Math.floor((score - min) / ((max - min) / colorPalette[theme]["scale"]));
     if (level === colorPalette[theme]["scale"]) level--;
@@ -278,6 +277,27 @@ map.on("load", () => {
 
   map.on("mouseleave", "state", () => {
     map.getCanvas().style.cursor = "";
+  });
+
+  map.on("click", "state", (e) => {
+    const state = e.features[0].properties.state_name;
+    const stateAbbrev = e.features[0].properties.state_abbrev;
+
+    $("#state-modal .modal-title").text(state);
+    $("#state-modal .modal-body").empty();
+    for (const theme of themes) {
+      $("#state-modal .modal-body").append(`<h5>${CONFIG["propertiesToNames"][theme]}</h5>`);
+      for (const [key, val] of Object.entries(scoreData[stateAbbrev][theme])) {
+        $("#state-modal .modal-body").append(
+          `<div><strong>${CONFIG["propertiesToNames"][key]}:</strong> ${
+            Math.round((val + Number.EPSILON) * 100) / 100
+          }</div>`
+        );
+      }
+      if (theme !== "overall") $("#state-modal .modal-body").append(`<hr>`);
+    }
+
+    $("#state-modal").modal("show");
   });
 });
 
