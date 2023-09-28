@@ -1,6 +1,10 @@
 import * as config from './config.js';
 
 const CONFIG = config['config'];
+const boundingBox = [
+    [-25, 14],
+    [23, -14],
+  ];
 
 function ajax_get(url, callback) {
     var xmlhttp = new XMLHttpRequest();
@@ -212,6 +216,7 @@ map.on('load', () => {
     $('.mapboxgl-canvas-container').css('width', '100vh');
     $('.mapboxgl-canvas-container').css('height', '100vh');
     map.resize();
+    map.fitBounds(boundingBox);
 
     map.on('click', (e) => {
         const bbox = [
