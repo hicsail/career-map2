@@ -108,6 +108,12 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
+    $("#bottom-dash .chart-header .btn").css({ "background-color": "", color: "" });
+    $(`#${theme}-head .btn`).css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#${theme}-head .btn`).css(
+      "color",
+      getLuminance(colorScale[theme][colorPalette[theme]["scale"] - 1]) > 200 ? "#000" : "#fff"
+    );
   }
 }
 
