@@ -2,15 +2,15 @@ export let config = {
 	'defaultColor': '#C0C0C0', 
 	'onClickHightlightColor': '#5bc0de',
 	'stateRecomHighlightColor': '#f0ad4e',
-	'accessToken':'pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw',
-	'dataPath': 'data/states-careers-2022-10.json', //'data/states-careers5.json',	
-  'scoreDataPath': "data/states-careers-score.json",
-  'colorPalette': {
-	'youth': {'color': "#3182BD", 'scale': 5},
-    'adulthood1': {'color': "#DE2D26",'scale': 5},
-    'adulthood2': {'color': "#F17418",'scale': 5},
-    'social': {'color': "#756BB1",'scale': 5},
-    'overall': {'color': "#31A354",'scale': 5}
+  accessToken: "pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw",
+  dataPath: "data/states-careers-2022-10.json", //'data/states-careers5.json',
+  scoreDataPath: "data/states-careers-score.json",
+  colorPalette: {
+    youth: { color: "#00B9E0", scale: 5 },
+    adulthood1: { color: "#D3371F", scale: 5 },
+    adulthood2: { color: "#EC8A2F", scale: 5 },
+    social: { color: "#F4B93D", scale: 5 },
+    overall: { color: "#0B3145", scale: 5 },
   },
   propertiesToIds: {
     PCAPName: { key: "PCAP Name", isLink: false },
@@ -26,10 +26,10 @@ export let config = {
     "SEL-Workforce": { key: "SEL-Workforce", isLink: true },
   },
   propertiesToNames: {
-    youth: "Future Ready Youth",
+    youth: "College and Career Readiness",
     adulthood1: "Postsecondary Outcomes",
-    adulthood2: "Young Adults Deserve a Brighter Future",
-    social: "Social Mobility",
+    adulthood2: "Education and Employment Opportunities",
+    social: "Economic and Social Mobility",
     overall: "Overall Score",
     rank: "Rank",
     rank_cr12: "Rank (based on CR score 1 and 2)",

@@ -6,6 +6,15 @@
   height: calc(80% - 80px);
 }
 
+.navbar .navbar-btn {
+  color: #fff;
+  background-color: #0b3145;
+}
+
+.navbar .navbar-btn:focus {
+  background-color: #1d4c67;
+}
+
 #state-legends {
   border-radius: 3px;
   padding: 0px;
@@ -62,7 +71,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #17a2b8;
+  background-color: #d2dde4;
   bottom: 0;
   width: 100%;
   height: 20%;
@@ -73,8 +82,7 @@
 }
 
 #bottom-dash .btn:hover {
-  background-color: #17a2b8;
-  
+  background-color: #a0acb9;
 }
 
 #bottom-dash .chart-header {
@@ -82,7 +90,7 @@
 }
 
 #bottom-dash-container {
-  background-color: #45b5c6;
+  background-color: #b8c4d1;
   border-radius: 10px;
   padding: 10px;
 }
