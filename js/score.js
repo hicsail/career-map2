@@ -290,17 +290,24 @@ map.on("load", () => {
     const stateAbbrev = e.features[0].properties.state_abbrev;
 
     $("#state-modal .modal-title").text(state);
-    $("#state-modal .modal-body").empty();
+    $("#state-modal .modal-body .row-content").remove();
     for (const theme of themes) {
-      $("#state-modal .modal-body").append(`<h5>${CONFIG["propertiesToNames"][theme]}</h5>`);
-      for (const [key, val] of Object.entries(scoreData[stateAbbrev][theme])) {
-        $("#state-modal .modal-body").append(
-          `<div><strong>${CONFIG["propertiesToNames"][key]}:</strong> ${
-            Math.round((val + Number.EPSILON) * 100) / 100
-          }</div>`
+      $(`#state-modal .modal-body .${theme}-content`).empty();
+      $(`#state-modal .modal-body .${theme}-sec h4`).css("color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+      $(`#state-modal .modal-body .${theme}-sec .rank`).text(`Ranking: #${scoreData[stateAbbrev][theme]["rank"]}`);
+      $(`#state-modal .modal-body .${theme}-sec .state-col`).text(state);
+      const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
+      for (let idx = 0; idx < entries.length; idx++) {
+        const [key, val] = entries[idx];
+
+        $(`#state-modal .modal-body .${theme}-sec`).append(
+          `<div class="row row-content ${idx % 2 === 0 ? "bg-light" : ""}">
+          <div class="col-8">${CONFIG["propertiesToNames"][key]}</div>
+          <div class="col-2">${Math.round((val + Number.EPSILON) * 100) / 100}</div>
+          <div class="col-2"></div>
+          </div>`
         );
       }
-      if (theme !== "overall") $("#state-modal .modal-body").append(`<hr>`);
     }
 
     $("#state-modal").modal("show");
