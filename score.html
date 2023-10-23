@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Career readiness map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="height: 80px; background-color: #0b3145">
+      <a class="navbar-brand navbar-right" href="#" style="height: 100%">
+        <img src="logos/logo-white.png" alt="..." style="height: 100%" />
+        State Career Readiness Resources
+      </a>
+      <ul class="nav navbar-nav navbar-left">
+        <li class="nav-item dropdown">
+          <a
+            class="btn dropdown-toggle navbar-btn"
+            data-toggle="dropdown"
+            href="#"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Switch View
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="index.html">State Policies and Resources</a>
+            <a class="dropdown-item" href="score.html">State Performance Data</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="map"></div>
+    <div id="choropleth-legend" class="legend"></div>
+
+    <div id="state-legends" style="cursor: pointer">
+      <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
+      <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
+      <div id="ct-badge" class="state-badge mt-2 p-2" name="Connecticut">CT</div>
+      <div id="nj-badge" class="state-badge mt-2 p-2" name="New Jersey">NJ</div>
+      <div id="de-badge" class="state-badge mt-2 p-2" name="Delaware">DE</div>
+      <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
+    </div>
+
+    <div id="side-dropdown" class="dropleft show">
+      <a
+        class="btn dropdown-toggle"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      ></a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+    </div>
+
+    <div id="bottom-dash">
+      <div id="bottom-dash-container" class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-12">
+            <div class="chart">
+              <div class="row chart-header">
+                <div class="col-lg-2 head"></div>
+                <div id="youth-head" class="col-lg-2 head" name="youth">
+                  <button type="button" class="btn w-100 h-100" value="youth">College and Career Readiness</button>
+                </div>
+                <div id="adulthood1-head" class="col-lg-2 head" name="adulthood1">
+                  <button type="button" class="btn w-100 h-100" value="adulthood1">Postsecondary Outcomes</button>
+                </div>
+                <div id="adulthood2-head" class="col-lg-2 head" name="adulthood2">
+                  <button type="button" class="btn w-100 h-100" value="adulthood2">
+                    Education and Employment Opportunities
+                  </button>
+                </div>
+                <div id="social-head" class="col-lg-2 head" name="social">
+                  <button type="button" class="btn w-100 h-100" value="social">Economic and Social Mobility</button>
+                </div>
+                <div id="overall-head" class="col-lg-2 head" name="overall">
+                  <button type="button" class="btn w-100 h-100" value="overall">Overall Score</button>
+                </div>
+              </div>
+              <div class="row state-row">
+                <div class="col-lg-2 state-name"><span></span></div>
+                <div class="col-lg-2 youth-score"></div>
+                <div class="col-lg-2 adulthood1-score"></div>
+                <div class="col-lg-2 adulthood2-score"></div>
+                <div class="col-lg-2 social-score"></div>
+                <div class="col-lg-2 overall-score"></div>
+              </div>
+              <div class="row national-row">
+                <div class="col-lg-2"><span style="font-weight: bold">National Average</span></div>
+                <div class="col-lg-2 youth-score"></div>
+                <div class="col-lg-2 adulthood1-score"></div>
+                <div class="col-lg-2 adulthood2-score"></div>
+                <div class="col-lg-2 social-score"></div>
+                <div class="col-lg-2 overall-score"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="state-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title text-white" id="state-modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container youth-sec">
+              <div class="row d-flex flex-row header">
+                <div class="d-flex col-8">
+                  <h4>College and Career Readiness</h4>
+                  <span class="rank"></span>
+                </div>
+                <span class="col-2 state-col"></span>
+                <span class="col-2 national-col">National</span>
+              </div>
+              <hr class="row" />
+            </div>
+
+            <div class="container adulthood1-sec">
+              <div class="row d-flex flex-row header">
+                <div class="d-flex col-8">
+                  <h4>Postsecondary Outcomes</h4>
+                  <span class="rank"></span>
+                </div>
+                <span class="col-2 state-col"></span>
+                <span class="col-2 national-col">National</span>
+              </div>
+              <hr class="row" />
+            </div>
+            <div class="container adulthood2-sec">
+              <div class="row d-flex flex-row header">
+                <div class="d-flex col-8">
+                  <h4>Education and Employment Opportunities</h4>
+                  <span class="rank"></span>
+                </div>
+                <span class="col-2 state-col"></span>
+                <span class="col-2 national-col">National</span>
+              </div>
+              <hr class="row" />
+            </div>
+            <div class="container social-sec">
+              <div class="row d-flex flex-row header">
+                <div class="d-flex col-8">
+                  <h4>Economic and Social Mobility</h4>
+                  <span class="rank"></span>
+                </div>
+                <span class="col-2 state-col"></span>
+                <span class="col-2 national-col">National</span>
+              </div>
+              <hr class="row" />
+            </div>
+            <div class="container overall-sec">
+              <div class="row d-flex flex-row header">
+                <div class="d-flex col-8">
+                  <h4>Overall Score</h4>
+                </div>
+                <span class="col-2 state-col"></span>
+                <span class="col-2 national-col">National</span>
+              </div>
+              <hr class="row" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/score.js" type="module"></script>
+    <link href="css/score.css" rel="stylesheet" />
+  </body>
+</html>

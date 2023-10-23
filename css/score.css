@@ -1,0 +1,122 @@
+#map {
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  width: 100%;
+  height: calc(80% - 80px);
+}
+
+.navbar .navbar-btn {
+  color: #fff;
+  background-color: #0b3145;
+}
+
+.navbar .navbar-btn:focus {
+  background-color: #1d4c67;
+}
+
+#state-legends {
+  border-radius: 3px;
+  padding: 0px;
+  position: absolute;
+  z-index: 1;
+  bottom: calc(25% + 50px);
+  right: 3%;
+}
+
+#state-legends .state-badge {
+  background-color: #cdcdcd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-align: center;
+}
+
+.legend {
+  position: absolute;
+  bottom: 25%;
+  left: 20px;
+  line-height: 1;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.legend div {
+  display: flex;
+  align-items: center;
+}
+
+.legend span {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* The color box in the legend */
+.legend span:first-child {
+  width: 30px;
+  height: 30px;
+}
+
+#side-dropdown {
+  position: absolute;
+  bottom: 25%;
+  right: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#bottom-dash {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #d2dde4;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+}
+
+#bottom-dash .row {
+  margin-bottom: 5px;
+}
+
+#bottom-dash .btn:hover {
+  background-color: #a0acb9;
+}
+
+#bottom-dash .chart-header {
+  margin-bottom: 10px;
+}
+
+#bottom-dash-container {
+  background-color: #b8c4d1;
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 90%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#state-modal .modal-header {
+  background-color: #a0acb9;
+}
+
+#state-modal #state-modal-title {
+  text-shadow: #555 0px 0px 6px;
+}
+
+#state-modal .modal-body h4 {
+  margin-top: 5px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+}
+
+#state-modal .modal-body span {
+  align-self: end;
+}
+
+#state-modal .modal-body hr {
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
