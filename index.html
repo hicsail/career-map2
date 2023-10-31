@@ -17,134 +17,111 @@
   </head>
   <body>
     <!-- top nav bar -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-info fixed-top" style="left: 25%">
-      <a class="navbar-brand navbar-right" href="#">
-        <img src="logos/logo.png" alt="..." style="width: 14%; height: 2%" />
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="height: 80px; background-color: #0b3145">
+      <a class="navbar-brand" href="#" style="height: 100%">
+        <img src="logos/logo-white.png" alt="..." style="height: 100%" />
         State Career Readiness Resources
       </a>
-
-      <ul class="nav navbar-nav navbar-left">
-        <li class="nav-item dropdown">
-          <a
-            class="btn btn-info dropdown-toggle navbar-btn"
-            data-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Switch View
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="index.html">State Policies and Resources</a>
-            <a class="dropdown-item" href="score.html">State Performance Data</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown dropleft">
-          <a
-            class="btn btn-info dropdown-toggle navbar-btn"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            id="dropdownBtn"
-          >
-            CCD Center State Recommendation
-          </a>
-          <div class="dropdown-menu" id="score-dropdown-menu">
-            <div class="card">
-              <div class="card-header bg-info text-white">Categories</div>
-              <div id="scores" class="card-body">
-                <div class="form-check">
-                  <label>
-                    <input
-                      class="form-check-input"
-                      name="score-radio"
-                      type="radio"
-                      value="Personalized Career & Academic Plan (PCAP) Process"
-                    />Personalized Career & Academic Plan (PCAP) Process
-                  </label>
-                </div>
-                <div class="form-check">
-                  <label>
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="score-radio"
-                      value="Social & Emotional Learning (SEL) & Workforce Skills"
-                    />Social & Emotional Learning (SEL) & Workforce Skills
-                  </label>
-                </div>
-                <div class="form-check">
-                  <label>
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="score-radio"
-                      value="Career & Technical Education (CTE) & Career Advising"
-                    />Career & Technical Education (CTE) & Career Advising
-                  </label>
-                </div>
-                <div class="form-check">
-                  <label>
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="score-radio"
-                      value="Work-Based Learning (WBL)"
-                    />Work-Based Learning (WBL)
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <div class="btn-group ml-auto" role="group">
+        <a href="index.html" role="button" class="btn btn-secondary active">State Policies and Resources</a>
+        <a href="score.html" type="button" class="btn btn-secondary">State Performance Data</a>
+      </div>
     </nav>
 
-<!-- map container -->
-<div id="map"></div>
+    <!-- map container -->
+    <div id="map"></div>
 
-<!-- small states badges -->
-<div id="state-legends" style="cursor: pointer;">    
-    <div class="text-white mt-2 p-2" id="Massachusetts" name="Massachusetts" style="background-color: #C0C0C0; cursor: pointer;"><span></span>MA</div>
-    <div class="text-white mt-2 p-2" name="Rhode Island" style="background-color: #C0C0C0;">
-        RI
+    <!-- small states badges -->
+    <div id="state-legends" style="cursor: pointer">
+      <div
+        class="text-white mt-2 p-2"
+        id="Massachusetts"
+        name="Massachusetts"
+        style="background-color: #c0c0c0; cursor: pointer"
+      >
+        <span></span>MA
+      </div>
+      <div class="text-white mt-2 p-2" name="Rhode Island" style="background-color: #c0c0c0">RI</div>
+      <div class="text-white mt-2 p-2" name="Connecticut" style="background-color: #c0c0c0">CT</div>
+      <div class="text-white mt-2 p-2" name="New Jersey" style="background-color: #c0c0c0">NJ</div>
+      <div class="text-white mt-2 p-2" name="Delaware" style="background-color: #c0c0c0">DE</div>
+      <div class="text-white mt-2 p-2" name="Maryland" style="background-color: #c0c0c0">MD</div>
+      <div class="text-white mt-2 p-2" name="District of Columbia" style="background-color: #c0c0c0">DC</div>
     </div>
-    <div class="text-white mt-2 p-2" name="Connecticut" style="background-color: #C0C0C0;">
-        CT
+
+    <div class="dropdown" id="score-dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="dropdownBtn">
+        CCD Center State Recommendation
+      </a>
+      <div class="dropdown-menu" id="score-dropdown-menu">
+        <div class="card">
+          <div class="card-header bg-secondary text-white">Categories</div>
+          <div id="scores" class="card-body">
+            <div class="form-check">
+              <label>
+                <input
+                  class="form-check-input"
+                  name="score-radio"
+                  type="radio"
+                  value="Personalized Career & Academic Plan (PCAP) Process"
+                />Personalized Career & Academic Plan (PCAP) Process
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="score-radio"
+                  value="Social & Emotional Learning (SEL) & Workforce Skills"
+                />Social & Emotional Learning (SEL) & Workforce Skills
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="score-radio"
+                  value="Career & Technical Education (CTE) & Career Advising"
+                />Career & Technical Education (CTE) & Career Advising
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="score-radio"
+                  value="Work-Based Learning (WBL)"
+                />Work-Based Learning (WBL)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="text-white mt-2 p-2" name="New Jersey" style="background-color: #C0C0C0;">
-        NJ
-    </div>
-    <div class="text-white mt-2 p-2" name="Delaware" style="background-color: #C0C0C0;">
-        DE
-    </div>
-    <div class="text-white mt-2 p-2" name="Maryland" style="background-color: #C0C0C0;">
-        MD
-    </div>
-    <div class="text-white mt-2 p-2" name="District of Columbia" style="background-color: #C0C0C0;">
-        DC
-    </div>   
-</div>
 
     <!-- middle visual container -->
     <div class="wrapper bg-white text-white">
-      <h3 class="card-header bg-info text-center mb-2">Instructions</h3>
-      <p class="text-dark">In order to view the data for each state, please click on the state.</p>
-      <p class="text-dark">
-        To see the state recommendation for each category, select a category from the state recommendation drop down,
-        and then the selected states will be highlighted in yellow.
-      </p>
-      <p class="text-dark font-weight-bold">
-        If you see any mistakes in the information provided or want to add additional information to the existing data
-        please click
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSe6Ke4qF34OfX68yAVjmEo2csxaQ2wFvfvvi034koya5d-LvA/viewform"
-          class="text-info"
-          >here.</a
-        >
-      </p>
-      <h3 class="card-header bg-info text-center mb-5 d-none" id="stateName">No State selected</h3>
+      <h3 class="card-header text-center">Instructions</h3>
+      <div class="card-body">
+        <p class="text-dark">In order to view the data for each state, please click on the state.</p>
+        <p class="text-dark">
+          To see the state recommendation for each category, select a category from the state recommendation drop down,
+          and then the selected states will be highlighted in yellow.
+        </p>
+        <p class="text-dark font-weight-bold">
+          If you see any mistakes in the information provided or want to add additional information to the existing data
+          please click
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe6Ke4qF34OfX68yAVjmEo2csxaQ2wFvfvvi034koya5d-LvA/viewform"
+            class="text-info"
+            >here.</a
+          >
+        </p>
+      </div>
+      <h3 class="card-header text-center mb-5 d-none" id="stateName">No State selected</h3>
       <div id="links"></div>
     </div>
 
