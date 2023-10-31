@@ -31,10 +31,14 @@
   text-align: center;
 }
 
-.legend {
+#legend-dropdown {
   position: absolute;
   bottom: 25%;
   left: 20px;
+}
+
+.legend {
+  width: fit-content;
   line-height: 1;
   background-color: #fff;
   padding: 10px;
@@ -60,10 +64,8 @@
 }
 
 #side-dropdown {
-  position: absolute;
-  bottom: 25%;
-  right: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 #bottom-dash {
@@ -98,8 +100,27 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+#state-modal .modal-header span {
+  color: #5c6c78;
+}
+
 #state-modal .modal-header {
   background-color: #a0acb9;
+}
+
+#state-modal .modal-header .container {
+  margin-left: 0px;
+  width: 80%;
+}
+
+#state-modal h2,
+h5 {
+  margin-bottom: 0px;
+}
+
+#state-modal hr {
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
 }
 
 #state-modal #state-modal-title {
@@ -113,6 +134,7 @@
 }
 
 #state-modal .modal-body span {
+  margin-bottom: 2px;
   align-self: end;
 }
 

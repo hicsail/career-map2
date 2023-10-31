@@ -87,6 +87,8 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
     let color = colorScale[theme][level];
     if (score === null) color = "#cdcdcd";
+    // if it is ratio, color it inversely
+    if (subTheme.includes("ratio")) color = colorScale[theme][colorPalette[theme]["scale"] - 1 - level];
 
     expression.push(stateAbbr, color);
     $(`#${stateAbbr.toLowerCase()}-badge`).css("background-color", color);
@@ -96,15 +98,25 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
   map.setPaintProperty("state", "fill-color", expression);
   $("#choropleth-legend").empty();
-  for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
-    const item = $("<div></div>");
-    const colorBox = $("<span></span>").css("background-color", colorScale[theme][idx]);
 
-    let text = $("<span></span>").text(
+  const colorBoxes = [];
+  const colorTexts = [];
+  for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
+    colorBoxes.push(colorScale[theme][idx]);
+    colorTexts.push(
       `${Math.floor(idx * ((max - min) / colorPalette[theme]["scale"]) + min)} - ${Math.ceil(
         (idx + 1) * ((max - min) / colorPalette[theme]["scale"]) + min
       )}`
     );
+  }
+
+  if (subTheme.includes("ratio")) {
+    colorTexts.reverse();
+  }
+  for (let idx = 0; idx < colorBoxes.length; idx++) {
+    const item = $("<div></div>");
+    const colorBox = $("<span></span>").css("background-color", colorBoxes[idx]);
+    const text = $("<span></span>").text(colorTexts[idx]);
 
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
@@ -290,6 +302,8 @@ map.on("load", () => {
     const stateAbbrev = e.features[0].properties.state_abbrev;
 
     $("#state-modal .modal-title").text(state);
+    $("#state-modal #state-rank-number").text(scoreData[stateAbbrev]["overall"]["rank_cr3"]);
+    $("#state-modal #state-score-number").text(`${scoreData[stateAbbrev]["overall"]["cr_score3"]} / 100`);
     $("#state-modal .modal-body .row-content").remove();
     for (const theme of themes) {
       $(`#state-modal .modal-body .${theme}-content`).empty();
@@ -299,11 +313,28 @@ map.on("load", () => {
       const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
       for (let idx = 0; idx < entries.length; idx++) {
         const [key, val] = entries[idx];
+        let name = CONFIG["propertiesToNames"][key];
+        let value = val;
+
+        if (typeof val !== "number") {
+          value = "-";
+        } else if (key.includes("ratio")) {
+          // for ratio data
+          value += " : 1";
+        } else if (name.includes("(%)")) {
+          // for percent data
+          name = name.replace(" (%)", "");
+          value += "%";
+        } else if (name.includes("($)")) {
+          // for dollar data
+          name = name.replace(" ($)", "");
+          value = `$${value}`;
+        }
 
         $(`#state-modal .modal-body .${theme}-sec`).append(
           `<div class="row row-content ${idx % 2 === 0 ? "bg-light" : ""}">
-          <div class="col-8">${CONFIG["propertiesToNames"][key]}</div>
-          <div class="col-2">${Math.round((val + Number.EPSILON) * 100) / 100}</div>
+          <div class="col-8">${name}</div>
+          <div class="col-2">${value}</div>
           <div class="col-2"></div>
           </div>`
         );
