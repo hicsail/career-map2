@@ -31,33 +31,18 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="height: 80px; background-color: #0b3145">
-      <a class="navbar-brand navbar-right" href="#" style="height: 100%">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="height: 80px; background-color: #0b3145">
+      <a class="navbar-brand" href="#" style="height: 100%">
         <img src="logos/logo-white.png" alt="..." style="height: 100%" />
         State Career Readiness Resources
       </a>
-      <ul class="nav navbar-nav navbar-left">
-        <li class="nav-item dropdown">
-          <a
-            class="btn dropdown-toggle navbar-btn"
-            data-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Switch View
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="index.html">State Policies and Resources</a>
-            <a class="dropdown-item" href="score.html">State Performance Data</a>
-          </div>
-        </li>
-      </ul>
+      <div class="btn-group ml-auto" role="group">
+        <a href="index.html" role="button" class="btn btn-secondary">State Policies and Resources</a>
+        <a href="score.html" type="button" class="btn btn-secondary active">State Performance Data</a>
+      </div>
     </nav>
 
     <div id="map"></div>
-    <div id="choropleth-legend" class="legend"></div>
 
     <div id="state-legends" style="cursor: pointer">
       <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
@@ -68,16 +53,19 @@
       <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
     </div>
 
-    <div id="side-dropdown" class="dropleft show">
-      <a
-        class="btn dropdown-toggle"
-        href="#"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      ></a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+    <div id="legend-dropdown">
+      <div id="side-dropdown" class="dropright show">
+        <a
+          class="btn dropdown-toggle"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        ></a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+      </div>
+      <div id="choropleth-legend" class="legend"></div>
     </div>
 
     <div id="bottom-dash">
@@ -138,7 +126,26 @@
       <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title text-white" id="state-modal-title"></h4>
+            <div class="container">
+              <div class="row d-flex flex-row">
+                <div class="d-flex flex-column col-3">
+                  <div id="state-rank">
+                    <div class="d-flex">
+                      <span class="text-uppercase font-weight-bold">rank</span>
+                      <h2 id="state-rank-number" class="mx-auto text-white"></h2>
+                    </div>
+                    <hr color="#d2dde4" />
+                  </div>
+                  <div id="state-score">
+                    <div class="d-flex">
+                      <span class="text-uppercase font-weight-bold">score</span>
+                      <h5 id="state-score-number" class="ml-auto text-white"></h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex col"><h1 class="modal-title text-white ml-4" id="state-modal-title"></h1></div>
+              </div>
+            </div>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -183,16 +190,6 @@
                 <div class="d-flex col-8">
                   <h4>Economic and Social Mobility</h4>
                   <span class="rank"></span>
-                </div>
-                <span class="col-2 state-col"></span>
-                <span class="col-2 national-col">National</span>
-              </div>
-              <hr class="row" />
-            </div>
-            <div class="container overall-sec">
-              <div class="row d-flex flex-row header">
-                <div class="d-flex col-8">
-                  <h4>Overall Score</h4>
                 </div>
                 <span class="col-2 state-col"></span>
                 <span class="col-2 national-col">National</span>
