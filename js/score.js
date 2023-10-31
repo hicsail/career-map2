@@ -316,7 +316,9 @@ map.on("load", () => {
         let name = CONFIG["propertiesToNames"][key];
         let value = val;
 
-        if (key.includes("ratio")) {
+        if (typeof val !== "number") {
+          value = "-";
+        } else if (key.includes("ratio")) {
           // for ratio data
           value += " : 1";
         } else if (name.includes("(%)")) {
