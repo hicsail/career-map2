@@ -1,7 +1,7 @@
 import * as config from "./config.js";
 
 const CONFIG = config["config"];
-const themes = ["youth", "adulthood1", "adulthood2", "social", "overall"];
+const themes = ["youth", "adulthood1", "adulthood2", "social"];
 const boundingBox = [
   [-25, 14],
   [23, -14],
@@ -262,20 +262,9 @@ map.on("load", () => {
   paintState(currentTheme);
   updateSideDropdown(currentTheme);
 
+  console.log(scoreData["MA"]);
   for (const theme of themes) {
-    let accumScore = 0;
-    let numStates = 50;
-    for (const stateAbbr of Object.keys(scoreData)) {
-      const subTheme = theme === "overall" ? "cr_score3" : "cr_score100";
-      if (scoreData[stateAbbr][theme][subTheme] === null) {
-        numStates--;
-        continue;
-      }
-
-      accumScore += scoreData[stateAbbr][theme][subTheme];
-    }
-
-    const nationalScore = Math.round((accumScore / numStates + Number.EPSILON) * 100) / 100;
+    const nationalScore = scoreData["US"][theme]["cr_score100"];
     generateProgressBar("national", theme, nationalScore, colorScale[theme][colorPalette[theme]["scale"] - 1]);
   }
 
@@ -315,27 +304,32 @@ map.on("load", () => {
         const [key, val] = entries[idx];
         let name = CONFIG["propertiesToNames"][key];
         let value = val;
+        let nationalValue = scoreData["US"][theme][key];
 
         if (typeof val !== "number") {
           value = "-";
+          nationalValue = "-";
         } else if (key.includes("ratio")) {
           // for ratio data
           value += " : 1";
+          nationalValue += " : 1";
         } else if (name.includes("(%)")) {
           // for percent data
           name = name.replace(" (%)", "");
           value += "%";
+          nationalValue += "%";
         } else if (name.includes("($)")) {
           // for dollar data
           name = name.replace(" ($)", "");
           value = `$${value}`;
+          nationalValue = `$${nationalValue}`;
         }
 
         $(`#state-modal .modal-body .${theme}-sec`).append(
           `<div class="row row-content ${idx % 2 === 0 ? "bg-light" : ""}">
           <div class="col-8">${name}</div>
           <div class="col-2">${value}</div>
-          <div class="col-2"></div>
+          <div class="col-2">${nationalValue}</div>
           </div>`
         );
       }

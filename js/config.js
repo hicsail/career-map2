@@ -46,7 +46,7 @@ export let config = {
     ps_completion_4y: "PS completion (4 years) (%) 2019-20",
     disconnected: "Disconnected youth (%)",
     non_neet_wage: "Median hourly wage of young adults working full-time ($)",
-    non_neet_living_wage: "Non-NEET earning more than state's living wage (%)",
+    non_neet_living_wage: "Full-time young adults earning more than state's living wage (%)",
     adult_wage: "Median hourly wage of all adult ($)",
     adult_full_time: "Adults working full time (%)",
     adult_mit_wage: "Full time adults earning more than living wage (%)",
