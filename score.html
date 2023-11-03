@@ -31,6 +31,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
   </head>
   <body>
+    <!-- top navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="height: 80px; background-color: #0b3145">
       <a class="navbar-brand" href="#" style="height: 100%">
         <img src="logos/logo-white.png" alt="..." style="height: 100%" />
@@ -42,8 +43,10 @@
       </div>
     </nav>
 
+    <!-- map container -->
     <div id="map"></div>
 
+    <!-- small state badges -->
     <div id="state-legends" style="cursor: pointer">
       <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
       <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
@@ -53,6 +56,7 @@
       <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
     </div>
 
+    <!-- map legend and dropdown -->
     <div id="legend-dropdown">
       <div id="side-dropdown" class="dropright show">
         <a
@@ -68,6 +72,7 @@
       <div id="choropleth-legend" class="legend"></div>
     </div>
 
+    <!-- bottom dashboard -->
     <div id="bottom-dash">
       <div id="bottom-dash-container" class="container">
         <div class="row justify-content-center">
@@ -110,6 +115,7 @@
       </div>
     </div>
 
+    <!-- pop-up modal -->
     <div
       class="modal fade"
       id="state-modal"
