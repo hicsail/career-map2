@@ -58,11 +58,16 @@ function getLuminance(color) {
 }
 
 function onHoverState(state, abbr) {
+  if ($("#topleft-card").css("display") === "none") {
+    $("#topleft-card").css("display", "block");
+  }
   $("#bottom-dash .state-name").find("span").text(state);
+  $("#topleft-card .state-name").text(state);
+  $("#topleft-card .rank").text(`${scoreData[abbr]["overall"]["rank_cr3"]}`);
+  $("#topleft-card .score").text(`${scoreData[abbr]["overall"]["cr_score3"]} / 100`);
   for (const theme of themes) {
-    let subTheme = "cr_score100";
-    if (theme === "overall") subTheme = "cr_score3";
-    const score = Math.round((scoreData[abbr][theme][subTheme] + Number.EPSILON) * 100) / 100;
+    const subTheme = "cr_score100";
+    const score = scoreData[abbr][theme][subTheme];
     $(`.state-row .${theme}-score`).empty().html(`<span>${score}</span>`);
     generateProgressBar("state", theme, score, colorScale[theme][colorPalette[theme]["scale"] - 1]);
   }

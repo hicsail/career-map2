@@ -15,6 +15,29 @@
   background-color: #1d4c67;
 }
 
+#topleft-card {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+  background-color: rgba(250, 250, 250, 0.85);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+  padding: 20px;
+  display: none;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#topleft-card hr {
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+
+#topleft-card #row {
+  width: auto;
+}
+
 #state-legends {
   border-radius: 3px;
   padding: 0px;
