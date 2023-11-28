@@ -126,12 +126,24 @@ nav img {
   margin-bottom: 10px;
 }
 
+#bottom-dash .progress {
+  height: 20px;
+}
+
 #bottom-dash-container {
   background-color: #b8c4d1;
   border-radius: 10px;
   padding: 10px;
   max-height: 90%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#bottom-dash-container .col-2 {
+  max-width: calc(100% / 14 * 2);
+}
+
+#bottom-dash-container .col-3 {
+  max-width: calc(100% / 14 * 3);
 }
 
 #state-modal .modal-header span {
@@ -234,5 +246,20 @@ h5 {
   #choropleth-legend span:empty {
     width: 20px;
     height: 20px;
+  }
+
+  #bottom-dash .btn,
+  #bottom-dash .state-row div,
+  #bottom-dash .national-row div {
+    font-size: 1.75vh;
+    padding: auto;
+  }
+
+  #bottom-dash .progress {
+    height: 2.25vh;
+  }
+
+  #bottom-dash .progress span {
+    font-size: 1.75vh;
   }
 }

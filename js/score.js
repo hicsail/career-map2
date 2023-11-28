@@ -167,7 +167,7 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
 
 function generateProgressBar(row, theme, score, color) {
   $(`.${row}-row .${theme}-score`).empty().html(`
-      <div class="progress" style="height: 20px">
+      <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: ${score}%; background-color: ${color}">
           <span>${score}</span>
         </div>
