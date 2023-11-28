@@ -2,6 +2,7 @@ import * as config from "./config.js";
 
 const CONFIG = config["config"];
 const themes = ["youth", "adulthood1", "adulthood2", "social"];
+let scoreData = {};
 const boundingBox = [
   [-25, 14],
   [23, -14],
@@ -174,8 +175,56 @@ function generateProgressBar(row, theme, score, color) {
       </div>`);
 }
 
+function openStateModal(state, stateAbbrev) {
+  $("#state-modal .modal-title").text(state);
+  $("#state-modal #state-rank-number").text(scoreData[stateAbbrev]["overall"]["rank_cr3"]);
+  $("#state-modal #state-score-number").text(`${scoreData[stateAbbrev]["overall"]["cr_score3"]} / 100`);
+  $("#state-modal .modal-body .row-content").remove();
+  for (const theme of themes) {
+    $(`#state-modal .modal-body .${theme}-content`).empty();
+    $(`#state-modal .modal-body .${theme}-sec h4`).css("color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#state-modal .modal-body .${theme}-sec .rank`).text(`Ranking: #${scoreData[stateAbbrev][theme]["rank"]}`);
+    $(`#state-modal .modal-body .${theme}-sec .state-col`).text(state);
+    const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
+    for (let idx = 0; idx < entries.length; idx++) {
+      const [key, val] = entries[idx];
+      let name = CONFIG["propertiesToNames"][key];
+      let value = val;
+      let nationalValue = scoreData["US"][theme][key];
+
+      if (typeof val !== "number") {
+        value = "-";
+        nationalValue = "-";
+      } else if (key.includes("ratio")) {
+        // for ratio data
+        value += " : 1";
+        nationalValue += " : 1";
+      } else if (name.includes("(%)")) {
+        // for percent data
+        name = name.replace(" (%)", "");
+        value += "%";
+        nationalValue += "%";
+      } else if (name.includes("($)")) {
+        // for dollar data
+        name = name.replace(" ($)", "");
+        value = `$${value}`;
+        nationalValue = `$${nationalValue}`;
+      }
+
+      $(`#state-modal .modal-body .${theme}-sec`).append(
+        `<div class="row row-content ${idx % 2 === 0 ? "bg-light" : ""}">
+          <div class="col-8">${name}</div>
+          <div class="col-2">${value}</div>
+          <div class="col-2">${nationalValue}</div>
+          </div>`
+      );
+    }
+  }
+
+  $("#state-modal").modal("show");
+}
+
 mapboxgl.accessToken = CONFIG["accessToken"];
-let scoreData = {};
 ajax_get(CONFIG["scoreDataPath"], function (d) {
   for (const feature of d.features) {
     scoreData[feature.properties.abbr] = feature.properties;
@@ -294,53 +343,7 @@ map.on("load", () => {
   map.on("click", "state", (e) => {
     const state = e.features[0].properties.state_name;
     const stateAbbrev = e.features[0].properties.state_abbrev;
-
-    $("#state-modal .modal-title").text(state);
-    $("#state-modal #state-rank-number").text(scoreData[stateAbbrev]["overall"]["rank_cr3"]);
-    $("#state-modal #state-score-number").text(`${scoreData[stateAbbrev]["overall"]["cr_score3"]} / 100`);
-    $("#state-modal .modal-body .row-content").remove();
-    for (const theme of themes) {
-      $(`#state-modal .modal-body .${theme}-content`).empty();
-      $(`#state-modal .modal-body .${theme}-sec h4`).css("color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
-      $(`#state-modal .modal-body .${theme}-sec .rank`).text(`Ranking: #${scoreData[stateAbbrev][theme]["rank"]}`);
-      $(`#state-modal .modal-body .${theme}-sec .state-col`).text(state);
-      const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
-      for (let idx = 0; idx < entries.length; idx++) {
-        const [key, val] = entries[idx];
-        let name = CONFIG["propertiesToNames"][key];
-        let value = val;
-        let nationalValue = scoreData["US"][theme][key];
-
-        if (typeof val !== "number") {
-          value = "-";
-          nationalValue = "-";
-        } else if (key.includes("ratio")) {
-          // for ratio data
-          value += " : 1";
-          nationalValue += " : 1";
-        } else if (name.includes("(%)")) {
-          // for percent data
-          name = name.replace(" (%)", "");
-          value += "%";
-          nationalValue += "%";
-        } else if (name.includes("($)")) {
-          // for dollar data
-          name = name.replace(" ($)", "");
-          value = `$${value}`;
-          nationalValue = `$${nationalValue}`;
-        }
-
-        $(`#state-modal .modal-body .${theme}-sec`).append(
-          `<div class="row row-content ${idx % 2 === 0 ? "bg-light" : ""}">
-          <div class="col-8">${name}</div>
-          <div class="col-2">${value}</div>
-          <div class="col-2">${nationalValue}</div>
-          </div>`
-        );
-      }
-    }
-
-    $("#state-modal").modal("show");
+    openStateModal(state, stateAbbrev);
   });
 });
 
@@ -361,4 +364,10 @@ $("#state-legends .state-badge").hover(function () {
   const name = $(this).attr("name");
   const abbr = $(this).text();
   onHoverState(name, abbr);
+});
+
+$("#state-legends .state-badge").click(function () {
+  const name = $(this).attr("name");
+  const abbr = $(this).text();
+  openStateModal(name, abbr);
 });
