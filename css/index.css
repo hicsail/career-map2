@@ -4,6 +4,16 @@ body {
   overflow-x: hidden;
 }
 
+nav {
+  height: 7%;
+  background-color: #0b3145;
+}
+
+nav .navbar-brand,
+nav img {
+  height: 100%;
+}
+
 #state-legends {
   border-radius: 3px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -75,4 +85,23 @@ body {
   border-radius: 10px;
   background-color: #637c95;
   -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
+
+@media screen and (max-height: 900px) {
+  nav .navbar-brand {
+    font-size: 0.8rem;
+  }
+
+  nav .btn-group .btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    line-height: normal;
+    border-radius: 0.25rem;
+  }
+}
+
+@media screen and (min-height: 900px) {
+  nav .navbar-brand {
+    font-size: 1.25rem;
+  }
 }

@@ -1,9 +1,19 @@
 #map {
   position: absolute;
-  top: 80px;
   bottom: 0;
   width: 100%;
-  height: calc(80% - 80px);
+  top: 7%;
+  height: 73%;
+}
+
+nav {
+  height: 7%;
+  background-color: #0b3145;
+}
+
+nav .navbar-brand,
+nav img {
+  height: 100%;
 }
 
 .navbar .navbar-btn {
@@ -164,4 +174,23 @@ h5 {
 #state-modal .modal-body hr {
   margin-top: 2px;
   margin-bottom: 5px;
+}
+
+@media screen and (max-height: 900px) {
+  nav .navbar-brand {
+    font-size: 0.8rem;
+  }
+
+  nav .btn-group .btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    line-height: normal;
+    border-radius: 0.25rem;
+  }
+}
+
+@media screen and (min-height: 900px) {
+  nav .navbar-brand {
+    font-size: 1.25rem;
+  }
 }
