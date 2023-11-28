@@ -14,6 +14,7 @@ nav {
 nav .navbar-brand,
 nav img {
   height: 100%;
+  font-size: 1.25rem;
 }
 
 .navbar .navbar-btn {
@@ -29,6 +30,7 @@ nav img {
   position: absolute;
   top: 9%;
   left: 10px;
+  padding: 20px;
   background-color: rgba(250, 250, 250, 0.85);
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
@@ -36,6 +38,11 @@ nav img {
   white-space: nowrap;
   align-items: center;
   justify-content: space-between;
+}
+
+#topleft-card hr {
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
 }
 
 #topleft-card #row {
@@ -171,25 +178,29 @@ h5 {
 }
 
 @media screen and (max-height: 900px) {
+  body {
+    line-height: 1.3;
+  }
+
   h3 {
-    font-size: 1.25rem;
+    font-size: 3.5vh;
   }
 
   h4 {
-    font-size: 1rem;
+    font-size: 3vh;
   }
 
   h6 {
-    font-size: 0.8rem;
+    font-size: 2vh;
   }
 
   nav .navbar-brand {
-    font-size: 0.8rem;
+    font-size: 2.5vh;
   }
 
-  nav .btn-group .btn {
+  :not(div .head) > .btn {
     padding: 0.3rem 0.5rem;
-    font-size: 0.7rem;
+    font-size: 1.75vh;
     line-height: normal;
     border-radius: 0.25rem;
   }
@@ -202,19 +213,26 @@ h5 {
     margin-top: 0.25rem;
     margin-bottom: 0.4rem;
   }
-}
 
-@media screen and (min-height: 900px) {
-  nav .navbar-brand {
-    font-size: 1.25rem;
+  #state-legends,
+  .dropdown-menu {
+    font-size: 1.75vh;
   }
 
-  #topleft-card {
-    padding: 20px;
+  .dropdown-menu:hover {
+    cursor: pointer;
   }
 
-  #topleft-card hr {
-    margin-top: 0.7rem;
-    margin-bottom: 0.7rem;
+  #state-legends .p-2 {
+    padding: 0.25rem;
+  }
+
+  #choropleth-legend {
+    font-size: 1.5vh;
+  }
+
+  #choropleth-legend span:empty {
+    width: 20px;
+    height: 20px;
   }
 }

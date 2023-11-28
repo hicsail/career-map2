@@ -12,6 +12,7 @@ nav {
 nav .navbar-brand,
 nav img {
   height: 100%;
+  font-size: 1.25rem;
 }
 
 #state-legends {
@@ -103,7 +104,7 @@ nav img {
 
   .btn {
     padding: 0.3rem 0.5rem;
-    font-size: 0.7rem;
+    font-size: 1.75vh;
     line-height: normal;
     border-radius: 0.25rem;
   }
@@ -131,17 +132,16 @@ nav img {
     margin-bottom: 0.5rem;
   }
 
-  #state-legends {
-    font-size: x-small;
+  #state-legends,
+  .dropdown-menu {
+    font-size: 0.7rem;
+  }
+
+  .dropdown-menu .form-check-input {
+    margin-top: 0.1rem;
   }
 
   #state-legends .p-2 {
     padding: 0.25rem;
-  }
-}
-
-@media screen and (min-height: 900px) {
-  nav .navbar-brand {
-    font-size: 1.25rem;
   }
 }
