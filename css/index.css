@@ -145,3 +145,39 @@ nav img {
     padding: 0.25rem;
   }
 }
+
+@media screen and (max-width: 820px) {
+  nav {
+    height: 5%;
+  }
+
+  nav .navbar-brand {
+    font-size: 1.5vh;
+  }
+
+  nav .btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 1.2vh;
+    line-height: normal;
+    border-radius: 0.25rem;
+  }
+
+  #map {
+    top: 5%;
+    left: 35%;
+    width: 65%;
+    height: 95%;
+  }
+
+  .wrapper {
+    top: 5%;
+    width: 35%;
+    height: 95%;
+  }
+
+  #score-dropdown {
+    top: 7%;
+    left: calc(35% + 20px);
+    z-index: 1;
+  }
+}
