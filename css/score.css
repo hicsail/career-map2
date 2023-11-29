@@ -114,6 +114,11 @@ nav img {
   height: 20%;
 }
 
+#bottom-dash .state-row,
+#bottom-dash .national-row {
+  align-items: center;
+}
+
 #bottom-dash .row {
   margin-bottom: 5px;
 }
