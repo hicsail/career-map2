@@ -138,14 +138,6 @@ nav img {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#bottom-dash-container .col-2 {
-  max-width: calc(100% / 14 * 2);
-}
-
-#bottom-dash-container .col-3 {
-  max-width: calc(100% / 14 * 3);
-}
-
 #state-modal .modal-header span {
   color: #5c6c78;
 }
