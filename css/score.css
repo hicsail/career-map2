@@ -264,7 +264,12 @@ h5 {
   }
 
   .modal-xl {
-    max-width: 65%;
+    max-width: 75%;
+  }
+
+  .modal-dialog .modal-header .col-3 {
+    flex: 0 0 calc(100% / 12 * 4);
+    max-width: calc(100% / 12 * 4);
   }
 
   .modal-header,
