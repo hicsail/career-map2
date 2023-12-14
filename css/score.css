@@ -1,9 +1,8 @@
 /* styling for map */
 #map {
   position: absolute;
-  bottom: 0;
   top: 70px;
-  height: 73%;
+  height: calc(80% - 70px);
   width: 100%;
   min-width: 970px;
 }
@@ -67,12 +66,13 @@ nav img {
   position: absolute;
   bottom: 25%;
   left: 20px;
+  z-index: 2;
 }
 
 .legend {
   width: fit-content;
   line-height: 1;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -101,6 +101,7 @@ nav img {
   margin-bottom: 10px;
 }
 
+/* styling for bottom dashboard */
 #bottom-dash {
   position: absolute;
   display: flex;
@@ -188,6 +189,8 @@ h5 {
 @media screen and (max-width: 1024px) {
   /* styling for map */
   #map {
+    top: 60px;
+    height: calc(75% - 60px);
     min-width: 768px;
   }
 
@@ -238,6 +241,11 @@ h5 {
   }
 
   /* color legend and dropdown */
+  #legend-dropdown {
+    position: absolute;
+    bottom: calc(25% + 20px);
+  }
+
   .legend span:first-child {
     width: 25px;
     height: 25px;
@@ -250,6 +258,11 @@ h5 {
   /* styling for side dropdown */
   #side-dropdown .btn {
     font-size: 1rem;
+  }
+
+  /* styling for bottom dashboard */
+  #bottom-dash {
+    height: 25%;
   }
 }
 
