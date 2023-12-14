@@ -62,6 +62,7 @@ nav img {
   text-align: center;
 }
 
+/* color legend and dropdown */
 #legend-dropdown {
   position: absolute;
   bottom: 25%;
@@ -94,6 +95,7 @@ nav img {
   height: 30px;
 }
 
+/* styling for side dropdown */
 #side-dropdown {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
@@ -233,6 +235,21 @@ h5 {
   #topleft-card hr {
     margin-top: 0.25rem;
     margin-bottom: 0.5rem;
+  }
+
+  /* color legend and dropdown */
+  .legend span:first-child {
+    width: 25px;
+    height: 25px;
+  }
+
+  .legend span {
+    font-size: 0.8rem;
+  }
+
+  /* styling for side dropdown */
+  #side-dropdown .btn {
+    font-size: 1rem;
   }
 }
 
