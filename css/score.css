@@ -45,13 +45,14 @@ nav img {
   width: auto;
 }
 
+/* styling for state legends */
 #state-legends {
   border-radius: 3px;
   padding: 0px;
   position: absolute;
   z-index: 1;
   bottom: calc(25% + 50px);
-  right: 3%;
+  right: 20px;
 }
 
 #state-legends .state-badge {
