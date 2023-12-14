@@ -2,9 +2,10 @@
 #map {
   position: absolute;
   bottom: 0;
-  min-width: 970px;
   top: 70px;
   height: 73%;
+  width: 100%;
+  min-width: 970px;
 }
 
 /* styling for navbar */
@@ -20,10 +21,10 @@ nav img {
   font-size: 1.25rem;
 }
 
-/* map elements */
+/* styling for topleft card  */
 #topleft-card {
   position: absolute;
-  top: 9%;
+  top: 90px;
   left: 10px;
   padding: 20px;
   background-color: rgba(250, 250, 250, 0.85);
@@ -204,6 +205,34 @@ h5 {
     line-height: normal;
     border-radius: 0.25rem;
   }
+
+  /* styling for topleft card  */
+  #topleft-card {
+    top: 70px;
+    left: 10px;
+    padding: 15px;
+  }
+
+  #topleft-card .col {
+    padding: 0px 10px;
+  }
+
+  #topleft-card h3 {
+    font-size: 1.5rem;
+  }
+
+  #topleft-card h6 {
+    font-size: 1rem;
+  }
+
+  #topleft-card h4 {
+    font-size: 1.3rem;
+  }
+
+  #topleft-card hr {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
 }
 
 /* @media screen and (max-height: 900px) {
@@ -232,15 +261,6 @@ h5 {
     font-size: 1.75vh;
     line-height: normal;
     border-radius: 0.25rem;
-  }
-
-  #topleft-card {
-    padding: 15px;
-  }
-
-  #topleft-card hr {
-    margin-top: 0.25rem;
-    margin-bottom: 0.4rem;
   }
 
   #state-legends,
