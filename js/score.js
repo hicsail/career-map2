@@ -31,15 +31,13 @@ function createColorScale(color, scale) {
   const green = parseInt(color.slice(3, 5), 16);
   const blue = parseInt(color.slice(5, 7), 16);
 
-  const deltaRed = (red - 255) / scale;
-  const deltaGreen = (green - 255) / scale;
-  const deltaBlue = (blue - 255) / scale;
+  const colorScale = [color];
+  for (let i = 1; i < scale; i++) {
+    let fraction = Math.sqrt(i / (scale - 1));
+    const newRed = Math.round(red + fraction * (255 - red));
+    const newGreen = Math.round(green + fraction * (255 - green));
+    const newBlue = Math.round(blue + fraction * (255 - blue));
 
-  const colorScale = [];
-  for (let i = 0; i < scale; i++) {
-    const newRed = Math.round(255 + i * deltaRed);
-    const newGreen = Math.round(255 + i * deltaGreen);
-    const newBlue = Math.round(255 + i * deltaBlue);
     colorScale.push(
       `#${newRed.toString(16).padStart(2, "0")}${newGreen.toString(16).padStart(2, "0")}${newBlue
         .toString(16)
@@ -47,7 +45,7 @@ function createColorScale(color, scale) {
     );
   }
 
-  return colorScale;
+  return colorScale.reverse();
 }
 
 function getLuminance(color) {
@@ -316,7 +314,6 @@ map.on("load", () => {
   paintState(currentTheme);
   updateSideDropdown(currentTheme);
 
-  console.log(scoreData["MA"]);
   for (const theme of themes) {
     const nationalScore = scoreData["US"][theme]["cr_score100"];
     generateProgressBar("national", theme, nationalScore, colorScale[theme][colorPalette[theme]["scale"] - 1]);
