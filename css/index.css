@@ -2,9 +2,9 @@
 #map {
   position: absolute;
   top: 70px;
-  left: calc(280px + 10%);
-  min-width: calc(970px - 280px - 10%);
-  width: calc(90% - 280px);
+  left: calc(260px + 10%);
+  min-width: calc(710px - 10%);
+  width: calc(90% - 260px);
   height: calc(100% - 70px);
 }
 
@@ -45,7 +45,7 @@ nav img {
 #score-dropdown {
   position: absolute;
   top: 90px;
-  left: calc(300px + 10%);
+  left: calc(280px + 10%);
   z-index: 1;
 }
 
@@ -61,7 +61,7 @@ nav img {
   position: absolute;
   z-index: 1;
   top: 70px;
-  width: calc(280px + 10%);
+  width: calc(260px + 10%);
   height: calc(100% - 70px);
   overflow-y: scroll;
 }
@@ -92,6 +92,13 @@ nav img {
 }
 
 @media screen and (max-width: 1024px) {
+  /* styling for map */
+  #map {
+    top: 60px;
+    min-width: calc(508px - 10%);
+    height: calc(100% - 60px);
+  }
+
   /* styling for navbar */
   nav {
     height: 60px;
