@@ -110,8 +110,12 @@ nav img {
     font-size: 1rem;
   }
 
+  .navbar .btn-group {
+    max-width: 280px;
+  }
+
   .navbar .btn {
-    padding: 0.5rem 0.5rem;
+    padding: 0.3rem 0.5rem;
     font-size: 0.75rem;
     line-height: normal;
     border-radius: 0.25rem;
