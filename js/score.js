@@ -176,16 +176,27 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
   const colorSubTheme = hasUniqueColor ? subTheme : "default";
 
+  $("#side-dropdown a.btn").empty();
   if (subTheme === "cr_score100" || subTheme === "cr_score3") {
-    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][theme]);
+    $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][theme]);
   } else {
-    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][subTheme]);
+    $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][subTheme]);
   }
-  $("#side-dropdown a.dropdown-toggle").css("color", "#fff");
-  $("#side-dropdown a.dropdown-toggle").css(
+  $("#side-dropdown a.btn").css("color", "#fff");
+  $("#side-dropdown a.btn").css(
     "background-color",
     colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
   );
+
+  $("#side-dropdown a.btn").append(
+    `<div class="vr" style="border-color:${
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
+    }"/>`
+  );
+  $("#side-dropdown a.btn").append(
+    `<svg height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-18.53 -18.53 222.40 222.40" xml:space="preserve" fill="#ffffff" transform="rotate(0)" stroke="#ffffff" stroke-width="9.267149999999999"><path style="fill:#ffffff;" d="M51.707,185.343c-2.741,0-5.493-1.044-7.593-3.149c-4.194-4.194-4.194-10.981,0-15.175 l74.352-74.347L44.114,18.32c-4.194-4.194-4.194-10.987,0-15.175c4.194-4.194,10.987-4.194,15.18,0l81.934,81.934 c4.194,4.194,4.194,10.987,0,15.175l-81.934,81.939C57.201,184.293,54.454,185.343,51.707,185.343z" /></svg>`
+  );
+
   $("#side-dropdown .dropdown-menu").empty();
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     let max = 100;

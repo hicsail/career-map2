@@ -69,6 +69,17 @@ nav img {
   z-index: 2;
 }
 
+#side-dropdown .btn {
+  padding: 10px 8px;
+}
+
+#side-dropdown .btn div.vr {
+  height: 32px;
+  border-right: 2px solid #ccc;
+  margin-left: 10px;
+  margin-right: 8px;
+}
+
 .legend {
   width: fit-content;
   line-height: 1;
