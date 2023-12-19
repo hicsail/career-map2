@@ -67,32 +67,66 @@ function onHoverState(state, abbr) {
   for (const theme of themes) {
     const subTheme = "cr_score100";
     const score = scoreData[abbr][theme][subTheme];
+
+    const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+    const colorSubTheme = hasUniqueColor ? subTheme : "default";
     $(`.state-row .${theme}-score`).empty().html(`<span>${score}</span>`);
-    generateProgressBar("state", theme, score, colorScale[theme][colorPalette[theme]["scale"] - 1]);
+
+    let color = colorScale[theme].default[colorPalette[theme]["scale"] - 1];
+    if (colorScale[theme][colorSubTheme] !== undefined) {
+      color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1];
+    }
+
+    generateProgressBar("state", theme, score, color);
   }
 }
 
 const colorPalette = CONFIG["colorPalette"];
-const colorScale = {
-  youth: createColorScale(colorPalette["youth"]["color"], colorPalette["youth"]["scale"]),
-  adulthood1: createColorScale(colorPalette["adulthood1"]["color"], colorPalette["adulthood1"]["scale"]),
-  adulthood2: createColorScale(colorPalette["adulthood2"]["color"], colorPalette["adulthood2"]["scale"]),
-  social: createColorScale(colorPalette["social"]["color"], colorPalette["social"]["scale"]),
-  overall: createColorScale(colorPalette["overall"]["color"], colorPalette["overall"]["scale"]),
-};
+// Generating color scale
+const colorScale = {};
+for (const [theme, themeObj] of Object.entries(colorPalette)) {
+  const themeScale = {};
+  // Each theme must have a default color scale
+  if ("color" in themeObj["default"] && "scale" in themeObj["default"]) {
+    themeScale["default"] = createColorScale(themeObj["default"]["color"], themeObj["default"]["scale"]);
+  } else if ("colors" in themeObj["default"]) {
+    themeScale["default"] = themeObj["default"]["colors"];
+  } else {
+    console.error("Error: colorPalette is not properly defined.");
+  }
+
+  for (const [subTheme, subThemeObj] of Object.entries(themeObj)) {
+    if (subTheme === "default") continue;
+    if ("color" in subThemeObj && "scale" in subThemeObj) {
+      themeScale[subTheme] = createColorScale(subThemeObj["color"], subThemeObj["scale"]);
+    } else if ("colors" in subThemeObj) {
+      themeScale[subTheme] = subThemeObj["colors"];
+    } else {
+      console.error("Error: colorPalette is not properly defined.");
+    }
+  }
+
+  colorScale[theme] = themeScale;
+}
 
 function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const expression = ["match", ["get", "state_abbrev"]];
+  currentSubTheme = subTheme;
+  const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+  const colorSubTheme = hasUniqueColor ? subTheme : "default";
+
+  // painting state on the map
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
 
-    let level = Math.floor((score - min) / ((max - min) / colorPalette[theme]["scale"]));
-    if (level === colorPalette[theme]["scale"]) level--;
+    let level = Math.floor((score - min) / ((max - min) / colorScale[theme][colorSubTheme].length));
+    if (level === colorScale[theme][colorSubTheme].length) level--;
 
-    let color = colorScale[theme][level];
+    let color = colorScale[theme][colorSubTheme][level];
     if (score === null) color = "#cdcdcd";
     // if it is ratio, color it inversely
-    if (subTheme.includes("ratio")) color = colorScale[theme][colorPalette[theme]["scale"] - 1 - level];
+    if (subTheme.includes("ratio"))
+      color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1 - level];
 
     expression.push(stateAbbr, color);
     $(`#${stateAbbr.toLowerCase()}-badge`).css("background-color", color);
@@ -105,11 +139,11 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
   const colorBoxes = [];
   const colorTexts = [];
-  for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
-    colorBoxes.push(colorScale[theme][idx]);
+  for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
+    colorBoxes.push(colorScale[theme][colorSubTheme][idx]);
     colorTexts.push(
-      `${Math.floor(idx * ((max - min) / colorPalette[theme]["scale"]) + min)} - ${Math.ceil(
-        (idx + 1) * ((max - min) / colorPalette[theme]["scale"]) + min
+      `${Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min)} - ${Math.ceil(
+        (idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min
       )}`
     );
   }
@@ -125,22 +159,33 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
     $("#bottom-dash .chart-header .btn").css({ "background-color": "", color: "" });
-    $(`#${theme}-head .btn`).css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#${theme}-head .btn`).css(
+      "background-color",
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+    );
     $(`#${theme}-head .btn`).css(
       "color",
-      getLuminance(colorScale[theme][colorPalette[theme]["scale"] - 1]) > 200 ? "#000" : "#fff"
+      getLuminance(colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]) > 200
+        ? "#000"
+        : "#fff"
     );
   }
 }
 
 function updateSideDropdown(theme, subTheme = "cr_score100") {
+  const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+  const colorSubTheme = hasUniqueColor ? subTheme : "default";
+
   if (subTheme === "cr_score100" || subTheme === "cr_score3") {
     $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][theme]);
   } else {
     $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][subTheme]);
   }
   $("#side-dropdown a.dropdown-toggle").css("color", "#fff");
-  $("#side-dropdown a.dropdown-toggle").css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+  $("#side-dropdown a.dropdown-toggle").css(
+    "background-color",
+    colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+  );
   $("#side-dropdown .dropdown-menu").empty();
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     let max = 100;
@@ -309,6 +354,7 @@ map.touchZoomRotate.disableRotation();
 
 let previousState = null;
 let currentTheme = "youth";
+let currentSubTheme = "cr_score100";
 map.on("load", () => {
   map.fitBounds(boundingBox);
   paintState(currentTheme);
@@ -316,7 +362,14 @@ map.on("load", () => {
 
   for (const theme of themes) {
     const nationalScore = scoreData["US"][theme]["cr_score100"];
-    generateProgressBar("national", theme, nationalScore, colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    const hasUniqueColor = colorScale[theme]["cr_score100"] !== undefined;
+    const colorSubTheme = hasUniqueColor ? "cr_score100" : "default";
+    generateProgressBar(
+      "national",
+      theme,
+      nationalScore,
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+    );
   }
 
   map.on("mousemove", "state", (e) => {

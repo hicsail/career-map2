@@ -6,11 +6,21 @@ export let config = {
   dataPath: "data/states-careers-2022-10.json", //'data/states-careers5.json',
   scoreDataPath: "data/states-careers-score.json",
   colorPalette: {
-    youth: { color: "#00B9E0", scale: 5 },
-    adulthood1: { color: "#D3371F", scale: 5 },
-    adulthood2: { color: "#EC8A2F", scale: 5 },
-    social: { color: "#F4B93D", scale: 5 },
-    overall: { color: "#0B3145", scale: 5 },
+    youth: {
+      default: { color: "#00B9E0", scale: 5 },
+    },
+    adulthood1: {
+      default: { color: "#D3371F", scale: 5 },
+    },
+    adulthood2: {
+      default: { color: "#EC8A2F", scale: 5 },
+    },
+    social: {
+      default: { color: "#F4B93D", scale: 5 },
+    },
+    overall: {
+      default: { color: "#0B3145", scale: 5 },
+    },
   },
   propertiesToIds: {
     PCAPName: { key: "PCAP Name", isLink: false },
