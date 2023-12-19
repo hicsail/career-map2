@@ -236,7 +236,10 @@ function openStateModal(state, stateAbbrev) {
   $("#state-modal .modal-body .row-content").remove();
   for (const theme of themes) {
     $(`#state-modal .modal-body .${theme}-content`).empty();
-    $(`#state-modal .modal-body .${theme}-sec h4`).css("color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#state-modal .modal-body .${theme}-sec h4`).css(
+      "color",
+      colorScale[theme]["default"][colorScale[theme]["default"].length - 1]
+    );
     $(`#state-modal .modal-body .${theme}-sec .rank`).text(`Ranking: #${scoreData[stateAbbrev][theme]["rank"]}`);
     $(`#state-modal .modal-body .${theme}-sec .state-col`).text(state);
     const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
