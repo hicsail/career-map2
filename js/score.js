@@ -31,15 +31,13 @@ function createColorScale(color, scale) {
   const green = parseInt(color.slice(3, 5), 16);
   const blue = parseInt(color.slice(5, 7), 16);
 
-  const deltaRed = (red - 255) / scale;
-  const deltaGreen = (green - 255) / scale;
-  const deltaBlue = (blue - 255) / scale;
+  const colorScale = [color];
+  for (let i = 1; i < scale; i++) {
+    let fraction = Math.sqrt(i / (scale - 1));
+    const newRed = Math.round(red + fraction * (255 - red));
+    const newGreen = Math.round(green + fraction * (255 - green));
+    const newBlue = Math.round(blue + fraction * (255 - blue));
 
-  const colorScale = [];
-  for (let i = 0; i < scale; i++) {
-    const newRed = Math.round(255 + i * deltaRed);
-    const newGreen = Math.round(255 + i * deltaGreen);
-    const newBlue = Math.round(255 + i * deltaBlue);
     colorScale.push(
       `#${newRed.toString(16).padStart(2, "0")}${newGreen.toString(16).padStart(2, "0")}${newBlue
         .toString(16)
@@ -47,7 +45,7 @@ function createColorScale(color, scale) {
     );
   }
 
-  return colorScale;
+  return colorScale.reverse();
 }
 
 function getLuminance(color) {
@@ -69,32 +67,66 @@ function onHoverState(state, abbr) {
   for (const theme of themes) {
     const subTheme = "cr_score100";
     const score = scoreData[abbr][theme][subTheme];
+
+    const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+    const colorSubTheme = hasUniqueColor ? subTheme : "default";
     $(`.state-row .${theme}-score`).empty().html(`<span>${score}</span>`);
-    generateProgressBar("state", theme, score, colorScale[theme][colorPalette[theme]["scale"] - 1]);
+
+    let color = colorScale[theme].default[colorPalette[theme]["scale"] - 1];
+    if (colorScale[theme][colorSubTheme] !== undefined) {
+      color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1];
+    }
+
+    generateProgressBar("state", theme, score, color);
   }
 }
 
 const colorPalette = CONFIG["colorPalette"];
-const colorScale = {
-  youth: createColorScale(colorPalette["youth"]["color"], colorPalette["youth"]["scale"]),
-  adulthood1: createColorScale(colorPalette["adulthood1"]["color"], colorPalette["adulthood1"]["scale"]),
-  adulthood2: createColorScale(colorPalette["adulthood2"]["color"], colorPalette["adulthood2"]["scale"]),
-  social: createColorScale(colorPalette["social"]["color"], colorPalette["social"]["scale"]),
-  overall: createColorScale(colorPalette["overall"]["color"], colorPalette["overall"]["scale"]),
-};
+// Generating color scale
+const colorScale = {};
+for (const [theme, themeObj] of Object.entries(colorPalette)) {
+  const themeScale = {};
+  // Each theme must have a default color scale
+  if ("color" in themeObj["default"] && "scale" in themeObj["default"]) {
+    themeScale["default"] = createColorScale(themeObj["default"]["color"], themeObj["default"]["scale"]);
+  } else if ("colors" in themeObj["default"]) {
+    themeScale["default"] = themeObj["default"]["colors"];
+  } else {
+    console.error("Error: colorPalette is not properly defined.");
+  }
+
+  for (const [subTheme, subThemeObj] of Object.entries(themeObj)) {
+    if (subTheme === "default") continue;
+    if ("color" in subThemeObj && "scale" in subThemeObj) {
+      themeScale[subTheme] = createColorScale(subThemeObj["color"], subThemeObj["scale"]);
+    } else if ("colors" in subThemeObj) {
+      themeScale[subTheme] = subThemeObj["colors"];
+    } else {
+      console.error("Error: colorPalette is not properly defined.");
+    }
+  }
+
+  colorScale[theme] = themeScale;
+}
 
 function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const expression = ["match", ["get", "state_abbrev"]];
+  currentSubTheme = subTheme;
+  const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+  const colorSubTheme = hasUniqueColor ? subTheme : "default";
+
+  // painting state on the map
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
 
-    let level = Math.floor((score - min) / ((max - min) / colorPalette[theme]["scale"]));
-    if (level === colorPalette[theme]["scale"]) level--;
+    let level = Math.floor((score - min) / ((max - min) / colorScale[theme][colorSubTheme].length));
+    if (level === colorScale[theme][colorSubTheme].length) level--;
 
-    let color = colorScale[theme][level];
+    let color = colorScale[theme][colorSubTheme][level];
     if (score === null) color = "#cdcdcd";
     // if it is ratio, color it inversely
-    if (subTheme.includes("ratio")) color = colorScale[theme][colorPalette[theme]["scale"] - 1 - level];
+    if (subTheme.includes("ratio"))
+      color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1 - level];
 
     expression.push(stateAbbr, color);
     $(`#${stateAbbr.toLowerCase()}-badge`).css("background-color", color);
@@ -107,11 +139,11 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
   const colorBoxes = [];
   const colorTexts = [];
-  for (let idx = colorScale[theme].length - 1; idx >= 0; idx--) {
-    colorBoxes.push(colorScale[theme][idx]);
+  for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
+    colorBoxes.push(colorScale[theme][colorSubTheme][idx]);
     colorTexts.push(
-      `${Math.floor(idx * ((max - min) / colorPalette[theme]["scale"]) + min)} - ${Math.ceil(
-        (idx + 1) * ((max - min) / colorPalette[theme]["scale"]) + min
+      `${Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min)} - ${Math.ceil(
+        (idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min
       )}`
     );
   }
@@ -127,22 +159,44 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     item.append(colorBox).append(text);
     $("#choropleth-legend").append(item);
     $("#bottom-dash .chart-header .btn").css({ "background-color": "", color: "" });
-    $(`#${theme}-head .btn`).css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#${theme}-head .btn`).css(
+      "background-color",
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+    );
     $(`#${theme}-head .btn`).css(
       "color",
-      getLuminance(colorScale[theme][colorPalette[theme]["scale"] - 1]) > 200 ? "#000" : "#fff"
+      getLuminance(colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]) > 200
+        ? "#000"
+        : "#fff"
     );
   }
 }
 
 function updateSideDropdown(theme, subTheme = "cr_score100") {
+  const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
+  const colorSubTheme = hasUniqueColor ? subTheme : "default";
+
+  $("#side-dropdown a.btn").empty();
   if (subTheme === "cr_score100" || subTheme === "cr_score3") {
-    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][theme]);
+    $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][theme]);
   } else {
-    $("#side-dropdown a.dropdown-toggle").text(CONFIG["propertiesToNames"][subTheme]);
+    $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][subTheme]);
   }
-  $("#side-dropdown a.dropdown-toggle").css("color", "#fff");
-  $("#side-dropdown a.dropdown-toggle").css("background-color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+  $("#side-dropdown a.btn").css("color", "#fff");
+  $("#side-dropdown a.btn").css(
+    "background-color",
+    colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+  );
+
+  $("#side-dropdown a.btn").append(
+    `<div class="vr" style="border-color:${
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
+    }"/>`
+  );
+  $("#side-dropdown a.btn").append(
+    `<svg height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-18.53 -18.53 222.40 222.40" xml:space="preserve" fill="#ffffff" transform="rotate(0)" stroke="#ffffff" stroke-width="9.267149999999999"><path style="fill:#ffffff;" d="M51.707,185.343c-2.741,0-5.493-1.044-7.593-3.149c-4.194-4.194-4.194-10.981,0-15.175 l74.352-74.347L44.114,18.32c-4.194-4.194-4.194-10.987,0-15.175c4.194-4.194,10.987-4.194,15.18,0l81.934,81.934 c4.194,4.194,4.194,10.987,0,15.175l-81.934,81.939C57.201,184.293,54.454,185.343,51.707,185.343z" /></svg>`
+  );
+
   $("#side-dropdown .dropdown-menu").empty();
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     let max = 100;
@@ -182,7 +236,10 @@ function openStateModal(state, stateAbbrev) {
   $("#state-modal .modal-body .row-content").remove();
   for (const theme of themes) {
     $(`#state-modal .modal-body .${theme}-content`).empty();
-    $(`#state-modal .modal-body .${theme}-sec h4`).css("color", colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    $(`#state-modal .modal-body .${theme}-sec h4`).css(
+      "color",
+      colorScale[theme]["default"][colorScale[theme]["default"].length - 1]
+    );
     $(`#state-modal .modal-body .${theme}-sec .rank`).text(`Ranking: #${scoreData[stateAbbrev][theme]["rank"]}`);
     $(`#state-modal .modal-body .${theme}-sec .state-col`).text(state);
     const entries = Object.entries(scoreData[stateAbbrev][theme]).filter((d) => !d[0].includes("rank"));
@@ -311,15 +368,22 @@ map.touchZoomRotate.disableRotation();
 
 let previousState = null;
 let currentTheme = "youth";
+let currentSubTheme = "cr_score100";
 map.on("load", () => {
   map.fitBounds(boundingBox);
   paintState(currentTheme);
   updateSideDropdown(currentTheme);
 
-  console.log(scoreData["MA"]);
   for (const theme of themes) {
     const nationalScore = scoreData["US"][theme]["cr_score100"];
-    generateProgressBar("national", theme, nationalScore, colorScale[theme][colorPalette[theme]["scale"] - 1]);
+    const hasUniqueColor = colorScale[theme]["cr_score100"] !== undefined;
+    const colorSubTheme = hasUniqueColor ? "cr_score100" : "default";
+    generateProgressBar(
+      "national",
+      theme,
+      nationalScore,
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
+    );
   }
 
   map.on("mousemove", "state", (e) => {
