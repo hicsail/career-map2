@@ -65,8 +65,8 @@ function resetStateRecoms() {
 function attachClickEventToStateBadges() {
   $("#state-legends div").each(function () {
     $(this).on("click", function () {
-      const stateName = $(this).attr("name");
-      onClickState(stateName);
+      const stateAbbr = $(this).attr("name");
+      onClickState(stateAbbr);
     });
   });
 }
@@ -87,18 +87,21 @@ function highlightSmallStateBadge(stateName, defaultColor, hightlightColor) {
     .css("background-color", hightlightColor);
 }
 
-function onClickState(stateName) {
+function onClickState(stateAbbr) {
   resetStateRecoms();
   resetSmallSateBadgesColor(CONFIG["defaultColor"]);
-  highlightSmallStateBadge(stateName, CONFIG["defaultColor"], CONFIG["onClickHightlightColor"]);
+  highlightSmallStateBadge(stateAbbr, CONFIG["defaultColor"], CONFIG["onClickHightlightColor"]);
+  if (!stateAbbr) {
+    return;
+  }
 
-  const features = statesData.features.filter((f) => f.properties.name === stateName);
+  const features = statesData.features.filter((f) => f.properties.abbr === stateAbbr);
   let properties = features[0].properties;
-  const propToIds = CONFIG["propertiesToIds"];
+  const stateName = properties["name"];
 
   map.setPaintProperty("states", "fill-color", [
     "case",
-    ["==", ["get", "state_name"], stateName],
+    ["==", ["get", "state_abbrev"], stateAbbr],
     CONFIG["onClickHightlightColor"],
     CONFIG["defaultColor"],
   ]);
@@ -108,33 +111,51 @@ function onClickState(stateName) {
     .empty()
     .text("Links for " + stateName);
   $("#links").empty();
-  for (const id in propToIds) {
-    $("#links").append("<ul id='" + id + "'></ul>");
+  for (const [key, val] of Object.entries(properties.data)) {
+    const category = $(`<div class="policy-category"></div>`);
+    const categoryHeader = $(`<div class="policy-category-header sticky-top"><span>${key}</span></div>`);
+    const categoryBody = $(`<div class="policy-category-body"></div>`);
 
-    const key = propToIds[id]["key"];
-    const links = properties[key];
+    for (const [subKey, subVal] of Object.entries(val)) {
+      const itemList = $(`<ul class="policy-item-list"></ul>`);
+      itemList.append(`<p class="text-dark font-weight-bold">${subKey}</p>`);
 
-    $("#" + id).append("<p class='text-dark font-weight-bold'>" + key + "</p>");
-    if (links.length === 0) {
-      $("#" + id).append("<p class='text-secondary'>No resource found</p>");
-    }
-    if (propToIds[id]["isLink"]) {
-      for (let i = 0; i < links.length; ++i) {
-        $("#" + id).append(
-          "<li><a target='_blank' class='text-success' href='" + links[i] + "'>" + key + " " + (i + 1) + "</a></li><br>"
-        );
+      for (const listItem of subVal) {
+        const item = $(`<li class="policy-item"></li>`);
+        let itemElement = null;
+        if (listItem.link) {
+          itemElement = $(
+            `<a target="_blank" class="text-success text-wrap" href="${listItem.link}">${listItem.text}</a>`
+          );
+        } else {
+          if (subKey.toLocaleLowerCase().includes("contact")) {
+            itemElement = $(`<p class="text-secondary text-wrap">${listItem.text.replace("\n", ": ")}</p>`);
+          } else {
+            itemElement = $(`<p class="text-secondary text-wrap">${listItem.text}</p>`);
+          }
+        }
+
+        if (listItem.text.includes("http:") || listItem.text.includes("https:")) {
+          itemElement.addClass("text-break");
+        }
+
+        item.append(itemElement);
+        itemList.append(item);
       }
-    } else {
-      for (const elm of links) {
-        $("#" + id).append("<li><p class='text-secondary'>" + elm + "</p></li>");
-      }
+
+      categoryBody.append(itemList);
+      categoryBody.append(`<hr class="mt-1 font-weight-bold">`);
     }
-    $("#links").append("<hr class='mt-1 font-weight-bold'>");
+
+    category.append(categoryHeader);
+    category.append(categoryBody);
+
+    $("#links").append(category);
   }
 }
 
 let statesData = null;
-ajax_get(CONFIG["dataPath"], function (d) {
+ajax_get(CONFIG["policyDataPath"], function (d) {
   statesData = d;
 });
 
@@ -225,8 +246,8 @@ map.on("load", () => {
     const selectedFeatures = map.queryRenderedFeatures(bbox, {
       layers: ["states"],
     });
-    const stateName = selectedFeatures[0].properties.state_name;
-    onClickState(stateName);
+    const stateAbbr = selectedFeatures[0]?.properties.state_abbrev;
+    onClickState(stateAbbr);
   });
 
   map.on("mouseenter", "states", () => {

@@ -72,8 +72,28 @@ nav img {
   border-radius: 0;
 }
 
-#stateName {
-  margin-bottom: 10%;
+.wrapper .policy-category-header {
+  background-color: #5b6a7a;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.wrapper .policy-category-body {
+  padding: 1rem 0.75rem;
+}
+
+.wrapper .policy-category-body ul {
+  padding-left: 1rem;
+}
+
+.wrapper .policy-category-body li {
+  padding-left: 1rem;
+}
+
+.wrapper .policy-category-body p {
+  margin-bottom: 0.5rem;
 }
 
 ::-webkit-scrollbar {
