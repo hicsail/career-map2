@@ -118,6 +118,9 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
   const colorSubTheme = hasUniqueColor ? subTheme : "default";
 
+  const isDollar = CONFIG["propertiesToNames"][subTheme].includes("$");
+  const isPercent = CONFIG["propertiesToNames"][subTheme].includes("%");
+
   // painting state on the map
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
@@ -143,11 +146,12 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const colorBoxes = [];
   const colorTexts = [];
   for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
+    const prefix = Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+    const postfix = Math.ceil((idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+
     colorBoxes.push(colorScale[theme][colorSubTheme][idx]);
     colorTexts.push(
-      `${Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min)} - ${Math.ceil(
-        (idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min
-      )}`
+      `${isDollar ? "$" : ""}${prefix}${isPercent ? "%" : ""} - ${isDollar ? "$" : ""}${postfix}${isPercent ? "%" : ""}`
     );
   }
 
