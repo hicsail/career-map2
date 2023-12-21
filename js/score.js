@@ -131,7 +131,7 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     let color = colorScale[theme][colorSubTheme][level];
     if (score === null) color = "#cdcdcd";
     // if it is ratio, color it inversely
-    if (subTheme.includes("ratio"))
+    if (subTheme.includes("ratio") || subTheme === "disconnected")
       color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1 - level];
 
     expression.push(stateAbbr, color);
@@ -155,7 +155,7 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     );
   }
 
-  if (subTheme.includes("ratio")) {
+  if (subTheme.includes("ratio") || subTheme === "disconnected") {
     colorTexts.reverse();
   }
   for (let idx = 0; idx < colorBoxes.length; idx++) {
