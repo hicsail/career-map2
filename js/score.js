@@ -204,12 +204,10 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     let max = 100;
     let min = 0;
-    if (!CONFIG["propertiesToNames"][subTheme].includes("%")) {
-      if (subTheme.includes("rank")) continue;
-      if (!subTheme.includes("cr_score")) {
-        max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
-        min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
-      }
+    if (subTheme.includes("rank")) continue;
+    if (!subTheme.includes("cr_score")) {
+      max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
+      min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
     }
 
     $("#side-dropdown .dropdown-menu").append(
