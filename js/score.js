@@ -31,6 +31,7 @@ function createColorScale(color, scale) {
   const green = parseInt(color.slice(3, 5), 16);
   const blue = parseInt(color.slice(5, 7), 16);
 
+  scale++;
   const colorScale = [color];
   for (let i = 1; i < scale; i++) {
     let fraction = Math.sqrt(i / (scale - 1));
@@ -44,6 +45,8 @@ function createColorScale(color, scale) {
         .padStart(2, "0")}`
     );
   }
+
+  colorScale.pop();
 
   return colorScale.reverse();
 }
