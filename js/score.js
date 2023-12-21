@@ -31,6 +31,7 @@ function createColorScale(color, scale) {
   const green = parseInt(color.slice(3, 5), 16);
   const blue = parseInt(color.slice(5, 7), 16);
 
+  scale++;
   const colorScale = [color];
   for (let i = 1; i < scale; i++) {
     let fraction = Math.sqrt(i / (scale - 1));
@@ -44,6 +45,8 @@ function createColorScale(color, scale) {
         .padStart(2, "0")}`
     );
   }
+
+  colorScale.pop();
 
   return colorScale.reverse();
 }
@@ -115,6 +118,9 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
   const colorSubTheme = hasUniqueColor ? subTheme : "default";
 
+  const isDollar = CONFIG["propertiesToNames"][subTheme].includes("$");
+  const isPercent = CONFIG["propertiesToNames"][subTheme].includes("%");
+
   // painting state on the map
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
@@ -125,7 +131,7 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     let color = colorScale[theme][colorSubTheme][level];
     if (score === null) color = "#cdcdcd";
     // if it is ratio, color it inversely
-    if (subTheme.includes("ratio"))
+    if (subTheme.includes("ratio") || subTheme === "disconnected")
       color = colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1 - level];
 
     expression.push(stateAbbr, color);
@@ -140,15 +146,16 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const colorBoxes = [];
   const colorTexts = [];
   for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
+    const prefix = Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+    const postfix = Math.ceil((idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+
     colorBoxes.push(colorScale[theme][colorSubTheme][idx]);
     colorTexts.push(
-      `${Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min)} - ${Math.ceil(
-        (idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min
-      )}`
+      `${isDollar ? "$" : ""}${prefix}${isPercent ? "%" : ""} - ${isDollar ? "$" : ""}${postfix}${isPercent ? "%" : ""}`
     );
   }
 
-  if (subTheme.includes("ratio")) {
+  if (subTheme.includes("ratio") || subTheme === "disconnected") {
     colorTexts.reverse();
   }
   for (let idx = 0; idx < colorBoxes.length; idx++) {
@@ -201,12 +208,10 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   for (const subTheme of Object.keys(scoreData["AK"][theme])) {
     let max = 100;
     let min = 0;
-    if (!CONFIG["propertiesToNames"][subTheme].includes("%")) {
-      if (subTheme.includes("rank")) continue;
-      if (!subTheme.includes("cr_score")) {
-        max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
-        min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
-      }
+    if (subTheme.includes("rank")) continue;
+    if (!subTheme.includes("cr_score")) {
+      max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
+      min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
     }
 
     $("#side-dropdown .dropdown-menu").append(
