@@ -1,17 +1,37 @@
 /* styling for map */
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+.container {
+  position: relative;
+  max-width: 1520px;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.fixed {
+  width: 100%;
+  max-width: 1520px;
+}
+
+@media screen and (max-width: 768px) {
+  .logo-tagline {
+    display: none;
+  }
+  
+}
 #map {
-  position: absolute;
-  top: 70px;
-  left: calc(260px + 10%);
   min-width: calc(710px - 10%);
-  width: calc(90% - 260px);
+  width: 100%;
   height: calc(100% - 70px);
 }
 
 /* styling for navbar */
 nav {
   height: 70px;
-  min-width: 970px;
+  min-width: 100%;
   background-color: #0b3145;
 }
 
@@ -23,12 +43,16 @@ nav img {
 
 #state-legends {
   border-radius: 3px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 0px;
   position: absolute;
   z-index: 1;
   bottom: 25%;
-  right: 3%;
+  right: 1%;
+}
+
+#state-legends > div{
+  background-color: #f0ad4e !important;
+  font-weight: 700;
 }
 
 #state-legends span {
@@ -42,11 +66,64 @@ nav img {
   color: "#C0C0C0";
 }
 
-#score-dropdown {
-  position: absolute;
-  top: 90px;
-  left: calc(280px + 10%);
-  z-index: 1;
+.dropdown-container {
+  display: flex;
+  width: 100%;
+  align-items:stretch;
+  justify-content: start;
+}
+@media screen and (max-width: 500px) {
+  .dropdown-container {
+    flex-direction: column;
+  }
+  
+}
+
+.heading-container {
+  background-color:#00aeef;
+  padding: 1.5rem 2.1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+  .heading-container {
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 1.1rem;
+  }
+  
+}
+
+.heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0%;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 500px) {
+  .heading {
+    text-align: center;
+  }
+
+}
+.anchor {
+  background-color:#005778 !important;
+  border-color: #005778 !important;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  border-radius:0%;
+}
+
+@media screen and (max-width: 900px) {
+  .anchor {
+    white-space: break-spaces;
+    text-align: left;
+  }
+  
 }
 
 #score-dropdown-menu {
@@ -55,21 +132,40 @@ nav img {
   min-width: 500px;
   padding: 0;
   margin: 0;
+ 
+}
+
+@media screen and (max-width: 500px) {
+  #score-dropdown-menu {
+    transform: translate3d(0px, 84px, 0px) !important;
+    min-width: 100%;
+  }
+  
 }
 
 .wrapper {
-  position: absolute;
-  z-index: 1;
-  top: 70px;
   width: calc(260px + 10%);
   height: calc(100% - 70px);
-  overflow-y: scroll;
+}
+
+#middle-visual-container {
+  width: 100%;
+  height: auto;
+  background-color:  #e5f7fd;
+}
+
+.bg-blue {
+  background-color:#005778;;
 }
 
 .wrapper .card-header {
-  background-color: #3c5a7a;
-  color: #fff;
+  background-color: #00aeef;
   border-radius: 0;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 1.5rem 2.1rem;
+
 }
 
 .wrapper .policy-category-header {
@@ -81,19 +177,50 @@ nav img {
 }
 
 .wrapper .policy-category-body {
-  padding: 1rem 0.75rem;
+  padding: 2.1rem;
+
 }
 
 .wrapper .policy-category-body ul {
-  padding-left: 1rem;
+  padding-left: 0rem;
+  column-count: 2;
 }
 
+@media screen and (max-width: 500px) {
+  .wrapper .policy-category-body ul {
+
+    column-count: 1;
+}
+  
+}
+
+
+.wrapper .policy-category-body div {
+  break-inside: avoid;
+  padding-bottom: 1rem;
+}
+
+.wrapper .policy-category-body div a.text-success {
+  color: #005778 !important;
+}
+
+
 .wrapper .policy-category-body li {
-  padding-left: 1rem;
+  list-style: none;
+}
+
+.wrapper .policy-category-body > p {
+  margin-bottom: 0rem;
+  line-height: 1.2em;
+  color: #000102 !important;
+  font-weight: 700;
 }
 
 .wrapper .policy-category-body p {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
+  line-height: 1.2em;
+  font-weight: 400;
+  color: #000102 !important;
 }
 
 ::-webkit-scrollbar {
@@ -114,15 +241,14 @@ nav img {
 @media screen and (max-width: 1024px) {
   /* styling for map */
   #map {
-    top: 60px;
     min-width: calc(508px - 10%);
     height: calc(100% - 60px);
+    width: 100%;
   }
 
   /* styling for navbar */
   nav {
     height: 60px;
-    min-width: 768px;
   }
 
   nav .navbar-brand,
@@ -139,10 +265,6 @@ nav img {
     font-size: 0.75rem;
     line-height: normal;
     border-radius: 0.25rem;
-  }
-
-  #score-dropdown {
-    top: 80px;
   }
 
   .wrapper {
