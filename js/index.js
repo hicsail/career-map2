@@ -152,6 +152,7 @@ function onClickState(stateAbbr) {
 
     $("#links").append(category);
   }
+  scrollToBottom();
 }
 
 let statesData = null;
@@ -267,3 +268,11 @@ $(document).ready(function () {
   );
   attachClickEventToStateBadges();
 });
+
+function scrollToBottom() {
+  var dropdownHeight = document.getElementById("score-dropdown").scrollHeight;
+  window.scrollTo({
+    top: map.getContainer().scrollHeight + dropdownHeight,
+    behavior: "smooth"
+  });
+}
