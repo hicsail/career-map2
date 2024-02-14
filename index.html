@@ -1,89 +1,96 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Career readiness map</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Career readiness map</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+  <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico" />
+  <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
   <div class="container">
     <!-- top nav bar -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark fixed">
-      <a class="navbar-brand" href="#">
-        <img src="logos/logo-white.png" alt="..." />
-        <span class="logo-tagline">
-          State Career Readiness Data and Resources
-        </span>
+
+    <!-- <div class="btn-group ml-auto" role="group">
+      <a href="index.html" role="button" class="btn btn-secondary active">State Policies and Resources</a>
+      <a href="score.html" type="button" class="btn btn-secondary">State Performance Data</a>
+    </div> -->
+
+    <div class="btn-group ml-auto" role="group">
+      <a href="index.html" role="button" class="btn btn-secondary active">
+        <img src="images/policy.svg" alt="SVG Icon">
+        
+        State Policies and Resources
+      
       </a>
-      <div class="btn-group ml-auto" role="group">
-        <a href="index.html" role="button" class="btn btn-secondary active">State Policies and Resources</a>
-        <a href="score.html" type="button" class="btn btn-secondary">State Performance Data</a>
-      </div>
-    </nav> -->
+      <a href="score.html" type="button" class="btn btn-secondary">
+        <img src="images/data.svg" alt="SVG Icon">
+        State Performance Data</a>
+    </div>
+
 
     <div class="dropdown dropdown-container" id="score-dropdown">
       <div class="heading-container">
         <h2 class="heading">
-          Start Career Readiness
+          State Career Readiness
         </h2>
       </div>
       <a class="btn btn-secondary dropdown-toggle anchor" href="#" role="button" data-toggle="dropdown"
-      id="dropdownBtn">
-      CCD Center State Recommendation
-    </a>
-    <div class="dropdown-menu" id="score-dropdown-menu">
-      <div class="card">
-        <div class="card-header text-white bg-blue">Categories</div>
-        <div id="scores" class="card-body">
-          <div class="form-check">
-            <label>
-              <input class="form-check-input" name="score-radio" type="radio"
-              value="Personalized Career & Academic Plan (PCAP) Process" />Personalized Career & Academic Plan
-              (PCAP)
-              Process
-            </label>
-          </div>
-          <div class="form-check">
-            <label>
-              <input class="form-check-input" type="radio" name="score-radio"
-              value="Social & Emotional Learning (SEL) & Workforce Skills" />Social & Emotional Learning (SEL) &
-              Workforce Skills
-            </label>
-          </div>
-          <div class="form-check">
-            <label>
-              <input class="form-check-input" type="radio" name="score-radio"
-              value="Career & Technical Education (CTE) & Career Advising" />Career & Technical Education (CTE) &
-              Career Advising
-            </label>
-          </div>
-          <div class="form-check">
-            <label>
-              <input class="form-check-input" type="radio" name="score-radio"
-              value="Work-Based Learning (WBL)" />Work-Based Learning (WBL)
-            </label>
+        id="dropdownBtn">
+        CCD Center State Recommendation
+      </a>
+      <div class="dropdown-menu" id="score-dropdown-menu">
+        <div class="card">
+          <div class="card-header text-white bg-dark-blue">Categories</div>
+          <div id="scores" class="card-body">
+            <div class="form-check">
+              <label>
+                <input class="form-check-input" name="score-radio" type="radio"
+                  value="Personalized Career & Academic Plan (PCAP) Process" />Personalized Career & Academic Plan
+                (PCAP)
+                Process
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input class="form-check-input" type="radio" name="score-radio"
+                  value="Social & Emotional Learning (SEL) & Workforce Skills" />Social & Emotional Learning (SEL) &
+                Workforce Skills
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input class="form-check-input" type="radio" name="score-radio"
+                  value="Career & Technical Education (CTE) & Career Advising" />Career & Technical Education (CTE) &
+                Career Advising
+              </label>
+            </div>
+            <div class="form-check">
+              <label>
+                <input class="form-check-input" type="radio" name="score-radio"
+                  value="Work-Based Learning (WBL)" />Work-Based Learning (WBL)
+              </label>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- map container -->
+
+    <!-- map container -->
     <div id="map">
       <!-- small states badges -->
       <div id="state-legends" style="cursor: pointer">

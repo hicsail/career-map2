@@ -16,12 +16,73 @@ body {
   max-width: 1520px;
 }
 
+/*** New CSS **/
+.btn-group {
+  width: 100%;
+  display: flex;
+  margin: 4em auto;
+  padding: 0px 9em;
+}
+
+.btn-group>a {
+  width: 48%;
+  border-radius: 0.5rem !important;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 40px;
+  /* text-align: left;
+  padding-left: 2em; */
+}
+
+.btn-group .btn>img {
+  width: 50px;
+  height: 50px;
+  margin-right: 1em;
+  position: absolute;
+  left: 2.1rem;
+  top: 5px;
+  /* Adjust margin as needed */
+}
+
+.btn-group>.btn:not(:first-child) {
+  float: right;
+}
+
+.btn-group .btn-secondary {
+  color: #000000;
+  background-color: transparent;
+  font-size: 1.4rem;
+  font-family: 'Avenir', sans-serif;
+}
+
+.btn-group>.btn-secondary:not(:disabled):not(.disabled).active {
+  background-color: #d2f1fd;
+  color: #000000;
+}
+
+@media screen and (max-width: 1300px) {
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-group>a {
+    margin: 20px 0px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .logo-tagline {
     display: none;
   }
-  
+
 }
+
 #map {
   min-width: calc(710px - 10%);
   width: 100%;
@@ -50,7 +111,7 @@ nav img {
   right: 1%;
 }
 
-#state-legends > div{
+#state-legends>div {
   background-color: #f0ad4e !important;
   font-weight: 700;
 }
@@ -62,6 +123,7 @@ nav img {
 .mapboxgl-popup-close-button {
   font-size: 25px;
 }
+
 .gray {
   color: "#C0C0C0";
 }
@@ -69,18 +131,19 @@ nav img {
 .dropdown-container {
   display: flex;
   width: 100%;
-  align-items:stretch;
+  align-items: stretch;
   justify-content: start;
 }
+
 @media screen and (max-width: 500px) {
   .dropdown-container {
     flex-direction: column;
   }
-  
+
 }
 
 .heading-container {
-  background-color:#00aeef;
+  background-color: #cccccc;
   padding: 1.5rem 2.1rem;
   width: 100%;
   display: flex;
@@ -93,7 +156,7 @@ nav img {
     align-items: flex-start;
     padding-left: 1.1rem;
   }
-  
+
 }
 
 .heading {
@@ -109,13 +172,14 @@ nav img {
   }
 
 }
+
 .anchor {
-  background-color:#005778 !important;
-  border-color: #005778 !important;
+  background-color: #0a3145 !important;
+  border-color: #0a3145 !important;
   display: flex;
   justify-content: center;
-  align-items:center;
-  border-radius:0%;
+  align-items: center;
+  border-radius: 0%;
 }
 
 @media screen and (max-width: 900px) {
@@ -123,7 +187,7 @@ nav img {
     white-space: break-spaces;
     text-align: left;
   }
-  
+
 }
 
 #score-dropdown-menu {
@@ -132,7 +196,7 @@ nav img {
   min-width: 500px;
   padding: 0;
   margin: 0;
- 
+
 }
 
 @media screen and (max-width: 500px) {
@@ -140,7 +204,7 @@ nav img {
     transform: translate3d(0px, 84px, 0px) !important;
     min-width: 100%;
   }
-  
+
 }
 
 .wrapper {
@@ -151,11 +215,16 @@ nav img {
 #middle-visual-container {
   width: 100%;
   height: auto;
-  background-color:  #e5f7fd;
+  background-color: #e5f7fd;
 }
 
 .bg-blue {
-  background-color:#005778;;
+  background-color: #005778;
+  
+}
+
+.bg-dark-blue {
+  background-color: #0a3145;
 }
 
 .wrapper .card-header {
@@ -165,6 +234,7 @@ nav img {
   font-size: 1rem;
   font-weight: 700;
   padding: 1.5rem 2.1rem;
+  font-family: 'Lulo', sans-serif;
 
 }
 
@@ -190,8 +260,8 @@ nav img {
   .wrapper .policy-category-body ul {
 
     column-count: 1;
-}
-  
+  }
+
 }
 
 
@@ -209,7 +279,7 @@ nav img {
   list-style: none;
 }
 
-.wrapper .policy-category-body > p {
+.wrapper .policy-category-body>p {
   margin-bottom: 0rem;
   line-height: 1.2em;
   color: #000102 !important;
@@ -239,6 +309,7 @@ nav img {
 }
 
 @media screen and (max-width: 1024px) {
+
   /* styling for map */
   #map {
     min-width: calc(508px - 10%);
@@ -256,8 +327,17 @@ nav img {
     font-size: 1rem;
   }
 
-  .navbar .btn-group {
-    max-width: 280px;
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 2em;
+  }
+
+  .btn-group>a {
+    width: 100%;
+    margin: 0.5em 0;
   }
 
   .navbar .btn {
@@ -272,3 +352,4 @@ nav img {
     height: calc(100% - 60px);
   }
 }
+
