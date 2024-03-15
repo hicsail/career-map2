@@ -61,7 +61,7 @@ export let config = {
     adult_full_time: "Adults working full time (%)",
     adult_mit_wage: "Full time adults earning more than living wage (%)",
     cr_score100: "CR Score (0~100 score)",
-    cr_score1: "CR Score 1 (average of 4 standardized scores)",
+    cr_score1: "CR Score 1 (0~100 scores from average of 16 scores)",
     cr_score2: "CR Score 2 (0~100 score from CR score 1)",
     cr_score3: "CR Score 3 (0~100 score by averaging four 0~100 scores)",
   },

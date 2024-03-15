@@ -65,8 +65,8 @@ function onHoverState(state, abbr) {
   }
   $("#bottom-dash .state-name").find("span").text(state);
   $("#topleft-card .state-name").text(state);
-  $("#topleft-card .rank").text(`${scoreData[abbr]["overall"]["rank_cr3"]}`);
-  $("#topleft-card .score").text(`${scoreData[abbr]["overall"]["cr_score3"]} / 100`);
+  $("#topleft-card .rank").text(`${scoreData[abbr]["overall"]["rank_cr12"]}`);
+  $("#topleft-card .score").text(`${scoreData[abbr]["overall"]["cr_score1"]} / 100`);
   for (const theme of themes) {
     const subTheme = "cr_score100";
     const score = scoreData[abbr][theme][subTheme];
@@ -184,7 +184,7 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   const colorSubTheme = hasUniqueColor ? subTheme : "default";
 
   $("#side-dropdown a.btn").empty();
-  if (subTheme === "cr_score100" || subTheme === "cr_score3") {
+  if (subTheme === "cr_score100" || subTheme === "cr_score1") {
     $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][theme]);
   } else {
     $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][subTheme]);
@@ -236,8 +236,8 @@ function generateProgressBar(row, theme, score, color) {
 
 function openStateModal(state, stateAbbrev) {
   $("#state-modal .modal-title").text(state);
-  $("#state-modal #state-rank-number").text(scoreData[stateAbbrev]["overall"]["rank_cr3"]);
-  $("#state-modal #state-score-number").text(`${scoreData[stateAbbrev]["overall"]["cr_score3"]} / 100`);
+  $("#state-modal #state-rank-number").text(scoreData[stateAbbrev]["overall"]["rank_cr12"]);
+  $("#state-modal #state-score-number").text(`${scoreData[stateAbbrev]["overall"]["cr_score1"]} / 100`);
   $("#state-modal .modal-body .row-content").remove();
   for (const theme of themes) {
     $(`#state-modal .modal-body .${theme}-content`).empty();
@@ -421,8 +421,8 @@ $("#bottom-dash .chart-header .btn").click(function () {
   if (theme === currentTheme) return;
   currentTheme = theme;
   if (theme === "overall") {
-    paintState(theme, "cr_score3");
-    updateSideDropdown(theme, "cr_score3");
+    paintState(theme, "cr_score1");
+    updateSideDropdown(theme, "cr_score1");
   } else {
     paintState(theme);
     updateSideDropdown(theme);
