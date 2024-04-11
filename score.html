@@ -1,97 +1,96 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Career readiness map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-<head>
-  <meta charset="utf-8" />
-  <title>Career readiness map</title>
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-</head>
-
-<body>
-  <!-- top navbar -->
-  <!-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <a class="navbar-brand" href="#">
-      <img src="logos/logo-white.png" alt="..." />
-      State Career Readiness Data and Resources
-    </a>
-    <div class="btn-group ml-auto" role="group">
-      <a href="index.html" role="button" class="btn btn-secondary active">State Policies and Resources</a>
-      <a href="score.html" type="button" class="btn btn-secondary">State Performance Data</a>
-    </div>
-  </nav> -->
-
-  <div class="body-container ">
-    <div class="btn-group ml-auto" role="group">
-      <a href="index.html" role="button" class="btn btn-secondary">
-        <img src="images/policy.svg" alt="SVG Icon">
-
-        State Policies and Resources
-
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+  </head>
+  <body>
+    <!-- top navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <a class="navbar-brand" href="#" >
+        <img src="logos/logo-white.png" alt="..." />
+        State Career Readiness Data and Resources
       </a>
-      <a href="score.html" type="button" class="btn btn-secondary active">
-        <img src="images/data.svg" alt="SVG Icon">
-        State Performance Data</a>
-    </div>
+      <div class="btn-group ml-auto" role="group">
+        <a href="index.html" role="button" class="btn btn-secondary">State Policies and Resources</a>
+        <a href="score.html" type="button" class="btn btn-secondary active">State Performance Data</a>
+      </div>
+    </nav>
 
     <!-- map container -->
-    <div id="map">
+    <div id="map"></div>
 
-      <!-- top left panel -->
-      <div id="topleft-card">
-        <div class="card-content container">
-          <h3 class="row state-name">
-            </h3>
-            <hr class="row" />
-            <div class="row">
-              <div class="col">
-                <h6>Rank</h6>
-                <h4 class="rank"></h4>
-              </div>
-              <div class="col">
-                <h6>Score</h6>
-                <h4 class="score"></h4>
-              </div>
-            </div>
+    <!-- top left panel -->
+    <div id="topleft-card">
+      <div class="card-content container">
+        <h3 class="row state-name"></h4>
+        <hr class="row" />
+        <div class="row">
+          <div class="col">
+            <h6>Rank</h6>
+            <h4 class="rank"></h4>
+          </div>
+          <div class="col">
+            <h6>Score</h6>
+            <h4 class="score"></h4>
+          </div>
         </div>
-      </div>
-      <!-- small state badges -->
-      <div id="state-legends" style="cursor: pointer">
-        <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
-        <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
-        <div id="ct-badge" class="state-badge mt-2 p-2" name="Connecticut">CT</div>
-        <div id="nj-badge" class="state-badge mt-2 p-2" name="New Jersey">NJ</div>
-        <div id="de-badge" class="state-badge mt-2 p-2" name="Delaware">DE</div>
-        <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
-      </div>
-
-      <!-- map legend and dropdown -->
-      <div id="legend-dropdown">
-        <div id="side-dropdown" class="dropright show">
-          <a class="btn" style="display: flex; align-items: center;" href="#" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
-        </div>
-        <div id="choropleth-legend" class="legend"></div>
       </div>
     </div>
 
+    <!-- small state badges -->
+    <div id="state-legends" style="cursor: pointer">
+      <div id="ma-badge" class="state-badge mt-2 p-2" name="Massachusetts">MA</div>
+      <div id="ri-badge" class="state-badge mt-2 p-2" name="Rhode Island">RI</div>
+      <div id="ct-badge" class="state-badge mt-2 p-2" name="Connecticut">CT</div>
+      <div id="nj-badge" class="state-badge mt-2 p-2" name="New Jersey">NJ</div>
+      <div id="de-badge" class="state-badge mt-2 p-2" name="Delaware">DE</div>
+      <div id="md-badge" class="state-badge mt-2 p-2" name="Maryland">MD</div>
+    </div>
 
+    <!-- map legend and dropdown -->
+    <div id="legend-dropdown">
+      <div id="side-dropdown" class="dropright show">
+        <a
+          class="btn"
+          style="display: flex; align-items: center;"
+          href="#"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+      </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div>
+      </div>
+      <div id="choropleth-legend" class="legend"></div>
+    </div>
 
     <!-- bottom dashboard -->
     <div id="bottom-dash">
@@ -137,8 +136,14 @@
     </div>
 
     <!-- pop-up modal -->
-    <div class="modal fade" id="state-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
+    <div
+      class="modal fade"
+      id="state-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -146,24 +151,20 @@
               <div class="row d-flex flex-row">
                 <div class="d-flex flex-column col-3">
                   <div id="state-rank">
-                    <div class="d-flex justify-content-between px-1">
-                      <span class="text-uppercase font-weight-bold text-blue"
-                      >rank</span>
-                      <h2 id="state-rank-number" class="text-white"></h2>
+                    <div class="d-flex px-1">
+                      <span class="text-uppercase font-weight-bold">rank</span>
+                      <h2 id="state-rank-number" class="mx-auto text-white"></h2>
                     </div>
                     <hr color="#d2dde4" />
                   </div>
                   <div id="state-score">
                     <div class="d-flex px-1">
-                      <span class="text-uppercase font-weight-bold text-blue"
-                      >score</span>
+                      <span class="text-uppercase font-weight-bold">score</span>
                       <h5 id="state-score-number" class="ml-auto text-white"></h5>
                     </div>
                   </div>
                 </div>
-                <div class="d-flex col">
-                  <h1 class="modal-title text-white ml-4" id="state-modal-title"></h1>
-                </div>
+                <div class="d-flex col"><h1 class="modal-title text-white ml-4" id="state-modal-title"></h1></div>
               </div>
             </div>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -172,9 +173,7 @@
           </div>
           <div class="modal-body">
             <div class="container youth-sec">
-              <div class="row d-flex flex-row header bg-header"
-              style="background-color: rgb(0, 185, 224);"
-              >
+              <div class="row d-flex flex-row header">
                 <div class="d-flex col-8">
                   <h4>College and Career Readiness</h4>
                   <span class="rank"></span>
@@ -186,9 +185,7 @@
             </div>
 
             <div class="container adulthood1-sec">
-              <div class="row d-flex flex-row header"
-              style="background-color: rgb(211, 55, 31);"
-              >
+              <div class="row d-flex flex-row header">
                 <div class="d-flex col-8">
                   <h4>Postsecondary Outcomes</h4>
                   <span class="rank"></span>
@@ -199,9 +196,7 @@
               <hr class="row" />
             </div>
             <div class="container adulthood2-sec">
-              <div class="row d-flex flex-row header"
-              style="background-color: rgb(236, 138, 47);"
-              >
+              <div class="row d-flex flex-row header">
                 <div class="d-flex col-8">
                   <h4>Education and Employment Opportunities</h4>
                   <span class="rank"></span>
@@ -212,9 +207,7 @@
               <hr class="row" />
             </div>
             <div class="container social-sec">
-              <div class="row d-flex flex-row header"
-              style="background-color: rgb(244, 185, 61);"
-              >
+              <div class="row d-flex flex-row header">
                 <div class="d-flex col-8">
                   <h4>Economic and Social Mobility</h4>
                   <span class="rank"></span>
@@ -226,17 +219,13 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" 
-            style="background-color: #0a3145;"
-            class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="js/score.js" type="module"></script>
-  <link href="css/score.css" rel="stylesheet" />
-</body>
-
+    <script src="js/score.js" type="module"></script>
+    <link href="css/score.css" rel="stylesheet" />
+  </body>
 </html>

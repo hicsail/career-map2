@@ -1,7 +1,7 @@
 export let config = {
-  defaultColor: "#e7e5e5",
-  onClickHightlightColor: "#00aeef",
-  stateRecomHighlightColor: "#00aeef",
+  defaultColor: "#C0C0C0",
+  onClickHightlightColor: "#5bc0de",
+  stateRecomHighlightColor: "#f0ad4e",
   accessToken: "pk.eyJ1IjoiaGFyaXJpc2FpbCIsImEiOiJjazZ3aGF2MmkwN2pvM21vYmZtYTJrOG13In0.4IxSwTcKWq1ms7F-B8v2Iw",
   policyDataPath: "data/states-careers-policy.json", //'data/states-careers5.json',
   scoreDataPath: "data/states-careers-score.json",

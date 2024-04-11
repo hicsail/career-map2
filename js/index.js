@@ -111,13 +111,13 @@ function onClickState(stateAbbr) {
     .empty()
     .text("Links for " + stateName);
   $("#links").empty();
-  const category = $(`<div class="policy-category"></div>`);
-  const categoryBody = $(`<div class="policy-category-body"></div>`);
-  const itemListUl = $(`<ul class="policy-item-list"></ul>`);
   for (const [key, val] of Object.entries(properties.data)) {
+    const category = $(`<div class="policy-category"></div>`);
+    const categoryHeader = $(`<div class="policy-category-header sticky-top"><span>${key}</span></div>`);
+    const categoryBody = $(`<div class="policy-category-body"></div>`);
 
     for (const [subKey, subVal] of Object.entries(val)) {
-      const itemList = $(`<div class="policy-item-div"></div>`);
+      const itemList = $(`<ul class="policy-item-list"></ul>`);
       itemList.append(`<p class="text-dark font-weight-bold">${subKey}</p>`);
 
       for (const listItem of subVal) {
@@ -142,17 +142,16 @@ function onClickState(stateAbbr) {
         item.append(itemElement);
         itemList.append(item);
       }
-      itemListUl.append(itemList);
 
-      categoryBody.append(itemListUl);
-
+      categoryBody.append(itemList);
+      categoryBody.append(`<hr class="mt-1 font-weight-bold">`);
     }
 
+    category.append(categoryHeader);
     category.append(categoryBody);
 
     $("#links").append(category);
   }
-  scrollToBottom();
 }
 
 let statesData = null;
@@ -234,8 +233,8 @@ map.scrollZoom.disable();
 
 map.on("load", () => {
   var $ = window["$"];
-  $(".mapboxgl-canvas-container").css("width", "100vw");
-  $(".mapboxgl-canvas-container").css("height", "93vh");
+  $(".mapboxgl-canvas-container").css("width", "100vh");
+  $(".mapboxgl-canvas-container").css("height", "100vh");
   map.resize();
   map.fitBounds(boundingBox);
 
@@ -268,11 +267,3 @@ $(document).ready(function () {
   );
   attachClickEventToStateBadges();
 });
-
-function scrollToBottom() {
-  var dropdownHeight = document.getElementById("score-dropdown").scrollHeight;
-  window.scrollTo({
-    top: map.getContainer().scrollHeight + dropdownHeight,
-    behavior: "smooth"
-  });
-}

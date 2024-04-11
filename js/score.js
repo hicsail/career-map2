@@ -170,12 +170,11 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
       "background-color",
       colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
     );
-    $(`#${theme}-head button.btn.w-100.h-100`).css(
+    $(`#${theme}-head .btn`).css(
       "color",
-      //"#fff "
-      `${theme}` == 'adulthood1' || `${theme}` == 'adulthood2'
-        ? "#fff"
-        : "#000"
+      getLuminance(colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]) > 200
+        ? "#000"
+        : "#fff"
     );
   }
 }
@@ -190,14 +189,15 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   } else {
     $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][subTheme]);
   }
-  $("#side-dropdown a.btn").css("color", theme === 'adulthood1' || theme === 'adulthood2' ? "#fff" : "#000");
+  $("#side-dropdown a.btn").css("color", "#fff");
   $("#side-dropdown a.btn").css(
     "background-color",
     colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
   );
 
   $("#side-dropdown a.btn").append(
-    `<div class="vr" style="border-color:${colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
+    `<div class="vr" style="border-color:${
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
     }"/>`
   );
   $("#side-dropdown a.btn").append(
@@ -226,15 +226,9 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
 }
 
 function generateProgressBar(row, theme, score, color) {
-  let fontColor = "#ffffff"; // default font color
-
-  if (color === "#00B9E0" || color === "#F4B93D") {
-    fontColor = "#000000"; // change font color to black
-  }
-
   $(`.${row}-row .${theme}-score`).empty().html(`
       <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: ${score}%; background-color: ${color}; color: ${fontColor}">
+        <div class="progress-bar" role="progressbar" style="width: ${score}%; background-color: ${color}">
           <span>${score}</span>
         </div>
       </div>`);
