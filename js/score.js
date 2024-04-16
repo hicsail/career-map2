@@ -113,6 +113,9 @@ for (const [theme, themeObj] of Object.entries(colorPalette)) {
 }
 
 function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
+  if (max !== 100) max = Math.ceil(max);
+  if (min !== 0) min = Math.floor(min);
+
   const expression = ["match", ["get", "state_abbrev"]];
   currentSubTheme = subTheme;
   const hasUniqueColor = colorScale[theme][subTheme] !== undefined;
@@ -121,12 +124,24 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
   const isDollar = CONFIG["propertiesToNames"][subTheme].includes("$");
   const isPercent = CONFIG["propertiesToNames"][subTheme].includes("%");
 
+  const scale = [];
+  for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
+    const breakpoint = Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+    scale.push(breakpoint);
+  }
+  scale.reverse();
+
   // painting state on the map
   for (const stateAbbr of Object.keys(scoreData)) {
     const score = scoreData[stateAbbr][theme][subTheme];
 
-    let level = Math.floor((score - min) / ((max - min) / colorScale[theme][colorSubTheme].length));
-    if (level === colorScale[theme][colorSubTheme].length) level--;
+    let level = 0;
+    for (let idx = scale.length - 1; idx >= 0; idx--) {
+      if (score >= scale[idx]) {
+        level = idx;
+        break;
+      }
+    }
 
     let color = colorScale[theme][colorSubTheme][level];
     if (score === null) color = "#cdcdcd";
@@ -145,13 +160,16 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
   const colorBoxes = [];
   const colorTexts = [];
-  for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
-    const prefix = Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
-    const postfix = Math.ceil((idx + 1) * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+  scale.push(Math.ceil(max));
+  for (let idx = scale.length - 2; idx >= 0; idx--) {
+    const prefix = scale[idx];
+    const postfix = scale[idx + 1];
 
     colorBoxes.push(colorScale[theme][colorSubTheme][idx]);
     colorTexts.push(
-      `${isDollar ? "$" : ""}${prefix}${isPercent ? "%" : ""} - ${isDollar ? "$" : ""}${postfix}${isPercent ? "%" : ""}`
+      `${isDollar ? "$" : ""}${prefix}${isPercent ? "%" : ""} - ${isDollar ? "$" : ""}${
+        idx < colorScale[theme][colorSubTheme].length - 1 ? postfix - 1 : postfix
+      }${isPercent ? "%" : ""}`
     );
   }
 
@@ -173,9 +191,7 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
     $(`#${theme}-head button.btn.w-100.h-100`).css(
       "color",
       //"#fff "
-      `${theme}` == 'adulthood1' || `${theme}` == 'adulthood2'
-        ? "#fff"
-        : "#000"
+      `${theme}` == "adulthood1" || `${theme}` == "adulthood2" ? "#fff" : "#000"
     );
   }
 }
@@ -190,14 +206,15 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
   } else {
     $("#side-dropdown a.btn").text(CONFIG["propertiesToNames"][subTheme]);
   }
-  $("#side-dropdown a.btn").css("color", theme === 'adulthood1' || theme === 'adulthood2' ? "#fff" : "#000");
+  $("#side-dropdown a.btn").css("color", theme === "adulthood1" || theme === "adulthood2" ? "#fff" : "#000");
   $("#side-dropdown a.btn").css(
     "background-color",
     colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 1]
   );
 
   $("#side-dropdown a.btn").append(
-    `<div class="vr" style="border-color:${colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
+    `<div class="vr" style="border-color:${
+      colorScale[theme][colorSubTheme][colorScale[theme][colorSubTheme].length - 2]
     }"/>`
   );
   $("#side-dropdown a.btn").append(
@@ -210,15 +227,30 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
     let min = 0;
     if (subTheme.includes("rank")) continue;
     if (!subTheme.includes("cr_score")) {
-      max = Math.ceil(Math.max(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
-      min = Math.floor(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])) + Number.EPSILON);
+      max = Math.ceil(
+        Math.max(
+          ...Object.values(scoreData)
+            .map((d) => d[theme][subTheme])
+            .filter((d) => d !== null)
+        )
+      );
+      min = Math.floor(
+        Math.min(
+          ...Object.values(scoreData)
+            .map((d) => d[theme][subTheme])
+            .filter((d) => d !== null)
+        )
+      );
     }
+    console.log(subTheme);
+    console.log(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])));
 
     $("#side-dropdown .dropdown-menu").append(
       `<a class="dropdown-item" name="${subTheme}">${CONFIG["propertiesToNames"][subTheme]}</a>`
     );
     $(`#side-dropdown .dropdown-menu a[name="${subTheme}"]`).click(function () {
       const subTheme = $(this).attr("name");
+      console.log(subTheme, max, min);
       paintState(theme, subTheme, max, min);
       updateSideDropdown(theme, subTheme);
     });
