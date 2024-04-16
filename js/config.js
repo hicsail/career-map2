@@ -16,7 +16,7 @@ export let config = {
       default: { color: "#EC8A2F", scale: 5 },
     },
     social: {
-      default: { color: "#F4B93D", scale: 5 },
+      default: { color: "#008000", scale: 5 },
     },
     overall: {
       default: { color: "#0B3145", scale: 5 },
