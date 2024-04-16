@@ -47,7 +47,7 @@ export let config = {
     ele_mid_counselor_ratio: "Elementary/Middle School Counselor Ratio 2020-21",
     high_counselor_ratio: "High School Counselor Ratio 2020-21",
     ap: "AP Test Performance of 3 or Higher (2020) (%)",
-    fafsa: "Fafsa Completion Rate (%) 2021-22",
+    fafsa: "FAFSA Completion Rate (%) 2021-22",
     hs_completion: "HS Completion Rate (%) 2018-19 (Cohort based)",
     post_hs_college: "Post HS Placement - college (%) 2018-19 (Cohort based)",
     retention_pt: "Retention rate PT (%) 2019-20",
