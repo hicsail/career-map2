@@ -1,7 +1,6 @@
 /* styling for map */
 body {
   font-family: "Open Sans", sans-serif;
-
 }
 
 h4 {
@@ -13,19 +12,19 @@ button.close span {
   color: white !important;
 }
 
-.adulthood1-sec>div span {
+.adulthood1-sec > div span {
   color: rgb(255, 255, 255) !important;
 }
 
-.adulthood1-sec>div>div>h4 {
+.adulthood1-sec > div > div > h4 {
   color: rgb(255, 255, 255) !important;
 }
 
-.adulthood2-sec>div span {
+.adulthood2-sec > div span {
   color: rgb(255, 255, 255) !important;
 }
 
-.adulthood2-sec>div>div>h4 {
+.adulthood2-sec > div > div > h4 {
   color: rgb(255, 255, 255) !important;
 }
 
@@ -55,7 +54,7 @@ button.btn.w-100.h-100 {
   padding: 0px 9em;
 }
 
-.btn-group>a {
+.btn-group > a {
   width: 48%;
   border-radius: 0.5rem !important;
   height: 60px;
@@ -68,7 +67,7 @@ button.btn.w-100.h-100 {
   padding-left: 2em; */
 }
 
-.btn-group .btn>img {
+.btn-group .btn > img {
   width: 50px;
   height: 50px;
   margin-right: 1em;
@@ -78,7 +77,7 @@ button.btn.w-100.h-100 {
   /* Adjust margin as needed */
 }
 
-.btn-group>.btn:not(:first-child) {
+.btn-group > .btn:not(:first-child) {
   float: right;
 }
 
@@ -86,14 +85,13 @@ button.btn.w-100.h-100 {
   color: #000000;
   background-color: transparent;
   font-size: 1.4rem;
-  font-family: 'Avenir', sans-serif;
+  font-family: "Avenir", sans-serif;
 }
 
-.btn-group>.btn-secondary:not(:disabled):not(.disabled).active {
+.btn-group > .btn-secondary:not(:disabled):not(.disabled).active {
   background-color: #d2f1fd;
   color: #000000;
 }
-
 
 @media screen and (max-width: 1300px) {
   .btn-group {
@@ -104,12 +102,11 @@ button.btn.w-100.h-100 {
     padding: 0rem 2rem;
   }
 
-  .btn-group>a {
+  .btn-group > a {
     margin: 20px 0px;
     width: 100%;
   }
 }
-
 
 /* styling for navbar */
 nav {
@@ -167,7 +164,6 @@ a.btn {
   color: #000;
 }
 
-
 #state-legends .state-badge {
   background-color: #cdcdcd;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -177,10 +173,15 @@ a.btn {
 
 /* color legend and dropdown */
 #legend-dropdown {
+  pointer-events: none;
   position: absolute;
   bottom: 10%;
   left: 20px;
   z-index: 2;
+}
+
+#side-dropdown {
+  pointer-events: auto;
 }
 
 #side-dropdown .btn {
@@ -192,6 +193,10 @@ a.btn {
   border-right: 2px solid #ccc;
   margin-left: 10px;
   margin-right: 8px;
+}
+
+#choropleth-legend {
+  pointer-events: auto;
 }
 
 .legend {
