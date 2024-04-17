@@ -14,6 +14,7 @@ export let config = {
     },
     adulthood2: {
       default: { color: "#EC8A2F", scale: 5 },
+      non_neet_wage: { color: "#EC8A2F", scale: 4 },
     },
     social: {
       default: { color: "#008000", scale: 5 },

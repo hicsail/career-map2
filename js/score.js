@@ -126,7 +126,7 @@ function paintState(theme, subTheme = "cr_score100", max = 100, min = 0) {
 
   const scale = [];
   for (let idx = colorScale[theme][colorSubTheme].length - 1; idx >= 0; idx--) {
-    const breakpoint = Math.floor(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
+    const breakpoint = Math.ceil(idx * ((max - min) / colorScale[theme][colorSubTheme].length) + min);
     scale.push(breakpoint);
   }
   scale.reverse();
@@ -242,15 +242,12 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
         )
       );
     }
-    console.log(subTheme);
-    console.log(Math.min(...Object.values(scoreData).map((d) => d[theme][subTheme])));
 
     $("#side-dropdown .dropdown-menu").append(
       `<a class="dropdown-item" name="${subTheme}">${CONFIG["propertiesToNames"][subTheme]}</a>`
     );
     $(`#side-dropdown .dropdown-menu a[name="${subTheme}"]`).click(function () {
       const subTheme = $(this).attr("name");
-      console.log(subTheme, max, min);
       paintState(theme, subTheme, max, min);
       updateSideDropdown(theme, subTheme);
     });
