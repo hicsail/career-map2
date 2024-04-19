@@ -244,7 +244,9 @@ function updateSideDropdown(theme, subTheme = "cr_score100") {
     }
 
     $("#side-dropdown .dropdown-menu").append(
-      `<a class="dropdown-item" name="${subTheme}">${CONFIG["propertiesToNames"][subTheme]}</a>`
+      `<a class="dropdown-item ${subTheme.includes("cr_score") ? "font-weight-bold" : ""}" name="${subTheme}">${
+        CONFIG["propertiesToNames"][subTheme]
+      }</a>`
     );
     $(`#side-dropdown .dropdown-menu a[name="${subTheme}"]`).click(function () {
       const subTheme = $(this).attr("name");
